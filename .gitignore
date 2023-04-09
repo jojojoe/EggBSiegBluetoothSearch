@@ -1,0 +1,7 @@
+BSiegBluetoothSearch.xcodeproj/xcuserdata/
+BSiegBluetoothSearch.xcworkspace/
+Pods/
+*.swp
+Podfile.lock
+.DS_Store
+BSiegBluetoothSearch.xcodeproj/project.xcworkspace/xcuserdata/

@@ -1,0 +1,497 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D80D358A29E138F600F6B307 /* BSiegSearchingBottomV.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80D358929E138F600F6B307 /* BSiegSearchingBottomV.swift */; };
+		D80D358C29E152B300F6B307 /* BSiegDeviceContentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80D358B29E152B300F6B307 /* BSiegDeviceContentVC.swift */; };
+		D80D358E29E1811300F6B307 /* BSiegDeviceMapPositionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80D358D29E1811300F6B307 /* BSiegDeviceMapPositionVC.swift */; };
+		D80D359029E185FA00F6B307 /* BSiegDeSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80D358F29E185FA00F6B307 /* BSiegDeSettingVC.swift */; };
+		D80D359229E1860B00F6B307 /* BSiegDeSubscVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80D359129E1860B00F6B307 /* BSiegDeSubscVC.swift */; };
+		D80D359429E1863500F6B307 /* BSiegDeSplasecVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80D359329E1863500F6B307 /* BSiegDeSplasecVC.swift */; };
+		D80D359629E2607300F6B307 /* BSiegSubscribeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80D359529E2607300F6B307 /* BSiegSubscribeManager.swift */; };
+		E7EB1D287DF0339325EB0011 /* Pods_BSiegBluetoothSearch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E19BBC9D08CEA7E0C309005 /* Pods_BSiegBluetoothSearch.framework */; };
+		EBA787DD29DFFF6500B63396 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA787DC29DFFF6500B63396 /* AppDelegate.swift */; };
+		EBA787DF29DFFF6500B63396 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA787DE29DFFF6500B63396 /* SceneDelegate.swift */; };
+		EBA787E129DFFF6500B63396 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA787E029DFFF6500B63396 /* ViewController.swift */; };
+		EBA787E429DFFF6500B63396 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBA787E229DFFF6500B63396 /* Main.storyboard */; };
+		EBA787E629DFFF6800B63396 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBA787E529DFFF6800B63396 /* Assets.xcassets */; };
+		EBA787E929DFFF6800B63396 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBA787E729DFFF6800B63396 /* LaunchScreen.storyboard */; };
+		EBA787F129E0087900B63396 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBA787F029E0087800B63396 /* Poppins-Bold.ttf */; };
+		EBA787F429E013F000B63396 /* BSiegBlueDeviceCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA787F329E013F000B63396 /* BSiegBlueDeviceCollectionView.swift */; };
+		EBA787F629E01B9800B63396 /* PZSwipedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA787F529E01B9800B63396 /* PZSwipedCollectionViewCell.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		3FB3E37758A27DB524FFD594 /* Pods-BSiegBluetoothSearch.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BSiegBluetoothSearch.debug.xcconfig"; path = "Target Support Files/Pods-BSiegBluetoothSearch/Pods-BSiegBluetoothSearch.debug.xcconfig"; sourceTree = "<group>"; };
+		8E19BBC9D08CEA7E0C309005 /* Pods_BSiegBluetoothSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BSiegBluetoothSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D80D358929E138F600F6B307 /* BSiegSearchingBottomV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSiegSearchingBottomV.swift; sourceTree = "<group>"; };
+		D80D358B29E152B300F6B307 /* BSiegDeviceContentVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSiegDeviceContentVC.swift; sourceTree = "<group>"; };
+		D80D358D29E1811300F6B307 /* BSiegDeviceMapPositionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSiegDeviceMapPositionVC.swift; sourceTree = "<group>"; };
+		D80D358F29E185FA00F6B307 /* BSiegDeSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSiegDeSettingVC.swift; sourceTree = "<group>"; };
+		D80D359129E1860B00F6B307 /* BSiegDeSubscVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSiegDeSubscVC.swift; sourceTree = "<group>"; };
+		D80D359329E1863500F6B307 /* BSiegDeSplasecVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSiegDeSplasecVC.swift; sourceTree = "<group>"; };
+		D80D359529E2607300F6B307 /* BSiegSubscribeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSiegSubscribeManager.swift; sourceTree = "<group>"; };
+		EBA787D929DFFF6500B63396 /* BSiegBluetoothSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BSiegBluetoothSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBA787DC29DFFF6500B63396 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		EBA787DE29DFFF6500B63396 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		EBA787E029DFFF6500B63396 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EBA787E329DFFF6500B63396 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		EBA787E529DFFF6800B63396 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EBA787E829DFFF6800B63396 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EBA787EA29DFFF6800B63396 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EBA787F029E0087800B63396 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
+		EBA787F329E013F000B63396 /* BSiegBlueDeviceCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSiegBlueDeviceCollectionView.swift; sourceTree = "<group>"; };
+		EBA787F529E01B9800B63396 /* PZSwipedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PZSwipedCollectionViewCell.swift; sourceTree = "<group>"; };
+		FC6B89EAC5A29056FBE06194 /* Pods-BSiegBluetoothSearch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BSiegBluetoothSearch.release.xcconfig"; path = "Target Support Files/Pods-BSiegBluetoothSearch/Pods-BSiegBluetoothSearch.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EBA787D629DFFF6500B63396 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E7EB1D287DF0339325EB0011 /* Pods_BSiegBluetoothSearch.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		24DA9252AA138671ADD4CC27 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8E19BBC9D08CEA7E0C309005 /* Pods_BSiegBluetoothSearch.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EBA787D029DFFF6500B63396 = {
+			isa = PBXGroup;
+			children = (
+				EBA787DB29DFFF6500B63396 /* BSiegBluetoothSearch */,
+				EBA787DA29DFFF6500B63396 /* Products */,
+				F13F8CF45016D9B271F902B5 /* Pods */,
+				24DA9252AA138671ADD4CC27 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		EBA787DA29DFFF6500B63396 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EBA787D929DFFF6500B63396 /* BSiegBluetoothSearch.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EBA787DB29DFFF6500B63396 /* BSiegBluetoothSearch */ = {
+			isa = PBXGroup;
+			children = (
+				EBA787DC29DFFF6500B63396 /* AppDelegate.swift */,
+				EBA787DE29DFFF6500B63396 /* SceneDelegate.swift */,
+				EBA787E029DFFF6500B63396 /* ViewController.swift */,
+				D80D358B29E152B300F6B307 /* BSiegDeviceContentVC.swift */,
+				D80D358D29E1811300F6B307 /* BSiegDeviceMapPositionVC.swift */,
+				D80D358F29E185FA00F6B307 /* BSiegDeSettingVC.swift */,
+				D80D359129E1860B00F6B307 /* BSiegDeSubscVC.swift */,
+				D80D359329E1863500F6B307 /* BSiegDeSplasecVC.swift */,
+				D80D359529E2607300F6B307 /* BSiegSubscribeManager.swift */,
+				EBA787F229E0139500B63396 /* Views */,
+				EBA787E229DFFF6500B63396 /* Main.storyboard */,
+				EBA787E529DFFF6800B63396 /* Assets.xcassets */,
+				EBA787E729DFFF6800B63396 /* LaunchScreen.storyboard */,
+				EBA787EA29DFFF6800B63396 /* Info.plist */,
+				EBA787F029E0087800B63396 /* Poppins-Bold.ttf */,
+			);
+			path = BSiegBluetoothSearch;
+			sourceTree = "<group>";
+		};
+		EBA787F229E0139500B63396 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EBA787F329E013F000B63396 /* BSiegBlueDeviceCollectionView.swift */,
+				EBA787F529E01B9800B63396 /* PZSwipedCollectionViewCell.swift */,
+				D80D358929E138F600F6B307 /* BSiegSearchingBottomV.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F13F8CF45016D9B271F902B5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3FB3E37758A27DB524FFD594 /* Pods-BSiegBluetoothSearch.debug.xcconfig */,
+				FC6B89EAC5A29056FBE06194 /* Pods-BSiegBluetoothSearch.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EBA787D829DFFF6500B63396 /* BSiegBluetoothSearch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EBA787ED29DFFF6800B63396 /* Build configuration list for PBXNativeTarget "BSiegBluetoothSearch" */;
+			buildPhases = (
+				3610F575B077969897A4918A /* [CP] Check Pods Manifest.lock */,
+				EBA787D529DFFF6500B63396 /* Sources */,
+				EBA787D629DFFF6500B63396 /* Frameworks */,
+				EBA787D729DFFF6500B63396 /* Resources */,
+				317E9B2219F0664415581AA9 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BSiegBluetoothSearch;
+			productName = BSiegBluetoothSearch;
+			productReference = EBA787D929DFFF6500B63396 /* BSiegBluetoothSearch.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EBA787D129DFFF6500B63396 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1410;
+				LastUpgradeCheck = 1410;
+				TargetAttributes = {
+					EBA787D829DFFF6500B63396 = {
+						CreatedOnToolsVersion = 14.1;
+					};
+				};
+			};
+			buildConfigurationList = EBA787D429DFFF6500B63396 /* Build configuration list for PBXProject "BSiegBluetoothSearch" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EBA787D029DFFF6500B63396;
+			productRefGroup = EBA787DA29DFFF6500B63396 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EBA787D829DFFF6500B63396 /* BSiegBluetoothSearch */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EBA787D729DFFF6500B63396 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBA787E929DFFF6800B63396 /* LaunchScreen.storyboard in Resources */,
+				EBA787E629DFFF6800B63396 /* Assets.xcassets in Resources */,
+				EBA787E429DFFF6500B63396 /* Main.storyboard in Resources */,
+				EBA787F129E0087900B63396 /* Poppins-Bold.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		317E9B2219F0664415581AA9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BSiegBluetoothSearch/Pods-BSiegBluetoothSearch-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BSiegBluetoothSearch/Pods-BSiegBluetoothSearch-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BSiegBluetoothSearch/Pods-BSiegBluetoothSearch-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3610F575B077969897A4918A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BSiegBluetoothSearch-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EBA787D529DFFF6500B63396 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBA787E129DFFF6500B63396 /* ViewController.swift in Sources */,
+				D80D359229E1860B00F6B307 /* BSiegDeSubscVC.swift in Sources */,
+				D80D359429E1863500F6B307 /* BSiegDeSplasecVC.swift in Sources */,
+				EBA787DD29DFFF6500B63396 /* AppDelegate.swift in Sources */,
+				EBA787DF29DFFF6500B63396 /* SceneDelegate.swift in Sources */,
+				EBA787F629E01B9800B63396 /* PZSwipedCollectionViewCell.swift in Sources */,
+				EBA787F429E013F000B63396 /* BSiegBlueDeviceCollectionView.swift in Sources */,
+				D80D359029E185FA00F6B307 /* BSiegDeSettingVC.swift in Sources */,
+				D80D358C29E152B300F6B307 /* BSiegDeviceContentVC.swift in Sources */,
+				D80D359629E2607300F6B307 /* BSiegSubscribeManager.swift in Sources */,
+				D80D358A29E138F600F6B307 /* BSiegSearchingBottomV.swift in Sources */,
+				D80D358E29E1811300F6B307 /* BSiegDeviceMapPositionVC.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		EBA787E229DFFF6500B63396 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EBA787E329DFFF6500B63396 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		EBA787E729DFFF6800B63396 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EBA787E829DFFF6800B63396 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EBA787EB29DFFF6800B63396 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		EBA787EC29DFFF6800B63396 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EBA787EE29DFFF6800B63396 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3FB3E37758A27DB524FFD594 /* Pods-BSiegBluetoothSearch.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BSiegBluetoothSearch/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BlueSearch;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "\"Bluetooth Scanner requires access to your device's bluetooth services.\"";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "\"Bluetooth Scanner requires access to your device's bluetooth services.\"";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"Bluetooth Scanner will use your location to help you find your devices on a map\"";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"Bluetooth Scanner will use your location to help you find your devices on a map\"";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Watermark.BSiegBluetoothSearch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		EBA787EF29DFFF6800B63396 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FC6B89EAC5A29056FBE06194 /* Pods-BSiegBluetoothSearch.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BSiegBluetoothSearch/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = BlueSearch;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "\"Bluetooth Scanner requires access to your device's bluetooth services.\"";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "\"Bluetooth Scanner requires access to your device's bluetooth services.\"";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"Bluetooth Scanner will use your location to help you find your devices on a map\"";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"Bluetooth Scanner will use your location to help you find your devices on a map\"";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Watermark.BSiegBluetoothSearch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EBA787D429DFFF6500B63396 /* Build configuration list for PBXProject "BSiegBluetoothSearch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EBA787EB29DFFF6800B63396 /* Debug */,
+				EBA787EC29DFFF6800B63396 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EBA787ED29DFFF6800B63396 /* Build configuration list for PBXNativeTarget "BSiegBluetoothSearch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EBA787EE29DFFF6800B63396 /* Debug */,
+				EBA787EF29DFFF6800B63396 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EBA787D129DFFF6500B63396 /* Project object */;
+}
