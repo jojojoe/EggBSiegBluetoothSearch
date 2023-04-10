@@ -17,15 +17,23 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupBlueCentral()
         setupV()
+        
         scanCollectionV.isHidden = true
         searchLaunchPageV.isHidden = false
     }
     
-    
+    func setupBlueCentral() {
+        BSiesBluetoothManager.default.setupCentral()
+    }
     
 }
 
+extension ViewController {
+//    BSiesDeviceManager
+    
+}
 
 extension ViewController {
     func setupV() {
@@ -58,7 +66,7 @@ extension ViewController {
         }
         blueLabel1.text = "Bluetooth Scanner"
         blueLabel1.textColor = UIColor(hexString: "#242766")
-        blueLabel1.font = UIFont(name: "Poppins", size: 24)
+        blueLabel1.font = UIFont(name: "Poppins-Bold", size: 24)
         
         //
         
@@ -87,7 +95,7 @@ extension ViewController {
         searchBtn.clipsToBounds = true
         searchBtn.setTitle("Start Search", for: .normal)
         searchBtn.setTitleColor(.white, for: .normal)
-        searchBtn.titleLabel?.font = UIFont(name: "Poppins", size: 16)
+        searchBtn.titleLabel?.font = UIFont(name: "Poppins-Bold", size: 16)
         searchLaunchPageV.addSubview(searchBtn)
         searchBtn.snp.makeConstraints {
             $0.centerX.equalToSuperview()
@@ -178,7 +186,8 @@ extension ViewController {
             [weak self] in
             guard let `self` = self else {return}
             DispatchQueue.main.async {
-                self.searchingBottomV.isHidden = true
+                self.stopScaningAction()
+                
             }
         }
     }
@@ -191,10 +200,10 @@ extension ViewController {
             $0.top.equalTo(settingBtn.snp.bottom)
         }
         scanCollectionV.itemclickBlock = {
-            [weak self] in
+            [weak self] theDevice in
             guard let `self` = self else {return}
             DispatchQueue.main.async {
-                self.showContentSearchVC()
+                self.showContentSearchVC(bluetoothDevice: theDevice)
             }
         }
         self.searchingBottomV.isHidden = true
@@ -202,33 +211,77 @@ extension ViewController {
             [weak self] in
             guard let `self` = self else {return}
             DispatchQueue.main.async {
-                self.searchingBottomV.isHidden = false
+                self.searchAgainAction()
+                
             }
         }
     }
+  
+    
+}
+
+
+
+extension ViewController {
     
     @objc func settingBtnClick(sender: UIButton) {
 //        let vc = BSiegDeSettingVC()
 //        let vc = BSiegDeSubscVC()
-        let vc = BSiegDeSplasecVC()
-        
+        let vc = BSiegDeSettingVC()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func searchBtnClick(sender: UIButton) {
+        if !BSiesBluetoothManager.default.centralManagerStatus {
+            showBluetoothDeniedAlertV()
+            return
+        }
+        
+        
         scanCollectionV.isHidden = false
         searchLaunchPageV.isHidden = true
+        searchingBottomV.isHidden = false
+        
+        BSiesDeviceManager.default.startScan()
+        BSiesDeviceManager.default.deviceScanningBlock = {
+            [weak self] in
+            guard let `self` = self else {return}
+            DispatchQueue.main.async {
+                self.scanCollectionV.updateContentDevice()
+                self.searchingBottomV.updateSearingCountInfoLabel()
+            }
+        }
     }
    
+    func stopScaningAction() {
+        self.searchingBottomV.isHidden = true
+        BSiesDeviceManager.default.stopScan()
+    }
     
-}
-
-extension ViewController {
-    func showContentSearchVC() {
-        let vc = BSiegDeviceContentVC()
+    func showContentSearchVC(bluetoothDevice: Device) {
+        let vc = BSiegDeviceContentVC(bluetoothDevice: bluetoothDevice)
+        vc.fatherVC = self
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    func searchAgainAction() {
+        self.searchingBottomV.isHidden = false
+        BSiesDeviceManager.default.startScan()
+    }
     
+    func showBluetoothDeniedAlertV() {
+        let alert = UIAlertController(title: "Oops", message: "You have declined access to Bluetooth, please active it in Settings>Privacy>Bluetooth.", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: { (goSettingAction) in
+            DispatchQueue.main.async {
+                let url = URL(string: UIApplication.openSettingsURLString)!
+                UIApplication.shared.open(url, options: [:])
+            }
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(confirmAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true)
+    }
 }
 

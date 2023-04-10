@@ -49,7 +49,7 @@ class BSiegDeSettingVC: UIViewController {
         tiNameLabel.text = "Settings"
         tiNameLabel.textAlignment = .center
         tiNameLabel.textColor = UIColor(hexString: "#242766")
-        tiNameLabel.font = UIFont(name: "Poppins", size: 24)
+        tiNameLabel.font = UIFont(name: "Poppins-Bold", size: 24)
         
         //
         

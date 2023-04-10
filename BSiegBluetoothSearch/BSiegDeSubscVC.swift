@@ -96,7 +96,7 @@ class BSiegDeSubscVC: UIViewController {
         theContinueBtn.layer.cornerRadius = 30
         theContinueBtn.backgroundColor = UIColor(hexString: "#3971FF")
         theContinueBtn.setTitle("Continue", for: .normal)
-        theContinueBtn.titleLabel?.font = UIFont(name: "Poppins", size: 16)
+        theContinueBtn.titleLabel?.font = UIFont(name: "Poppins-Bold", size: 16)
         theContinueBtn.setTitleColor(.white, for: .normal)
         theContinueBtn.addTarget(self, action: #selector(theContinueBtnClick(sender: )), for: .touchUpInside)
         theContinueBtn.addShadow(ofColor: UIColor(hexString: "#3971FF")!, radius: 15, offset: CGSize(width: 0, height: 5), opacity: 0.3)

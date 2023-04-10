@@ -49,7 +49,7 @@ class BSiegDeSplasecVC: UIViewController {
         theContinueBtn.layer.cornerRadius = 72/2
         theContinueBtn.backgroundColor = UIColor(hexString: "#3971FF")
         theContinueBtn.setTitle("Continue", for: .normal)
-        theContinueBtn.titleLabel?.font = UIFont(name: "Poppins", size: 16)
+        theContinueBtn.titleLabel?.font = UIFont(name: "Poppins-Bold", size: 16)
         theContinueBtn.setTitleColor(.white, for: .normal)
         theContinueBtn.addTarget(self, action: #selector(theContinueBtnClick(sender: )), for: .touchUpInside)
         theContinueBtn.addShadow(ofColor: UIColor(hexString: "#3971FF")!, radius: 15, offset: CGSize(width: 0, height: 5), opacity: 0.3)
@@ -180,7 +180,7 @@ class BSiegSplashCell: UICollectionViewCell {
         
         //
         titLabelV.numberOfLines = 0
-        titLabelV.font = UIFont(name: "Poppins", size: 32)
+        titLabelV.font = UIFont(name: "Poppins-Bold", size: 32)
         titLabelV.textAlignment = .left
         titLabelV.textColor = UIColor(hexString: "#242766")
         contentView.addSubview(titLabelV)

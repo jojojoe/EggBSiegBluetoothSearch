@@ -10,9 +10,9 @@ import UIKit
 class BSiegBlueDeviceCollectionView: UIView {
 
     var collection: UICollectionView!
-    var myDevices: [String] = ["1", "2", "3", "4"]
-    var otherDevices: [String] = ["o1", "o2", "o3", "o4"]
-    var itemclickBlock: (()->Void)?
+    var myDevices: [Device] = []
+    var otherDevices: [Device] = []
+    var itemclickBlock: ((Device)->Void)?
     var searchAgainClickBlock: (()->Void)?
     
     override init(frame: CGRect) {
@@ -24,7 +24,11 @@ class BSiegBlueDeviceCollectionView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    func updateContentDevice() {
+        myDevices = BSiesDeviceManager.default.trackedDevices
+        otherDevices = BSiesDeviceManager.default.otherTrackedDevices
+        collection.reloadData()
+    }
 
 }
 
@@ -78,7 +82,7 @@ extension BSiegBlueDeviceCollectionView {
         searAginBtn.clipsToBounds = true
         searAginBtn.setTitle("Search Again", for: .normal)
         searAginBtn.setTitleColor(.white, for: .normal)
-        searAginBtn.titleLabel?.font = UIFont(name: "Poppins", size: 16)
+        searAginBtn.titleLabel?.font = UIFont(name: "Poppins-Bold", size: 16)
         searAginBtn.addTarget(self, action: #selector(searAginBtnClick(sender: )), for: .touchUpInside)
         
         
@@ -92,12 +96,44 @@ extension BSiegBlueDeviceCollectionView {
 }
 
 extension BSiegBlueDeviceCollectionView: UICollectionViewDataSource {
+    
+     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withClass: BSiegBlueDevicePreviewCell.self, for: indexPath)
-        
-        cell.contentImgV.image = UIImage(named: "hometopbluetooth")
-        cell.deviceNameLabel.text = "My Bluetooth"
-        cell.describeLabel.text = "Approx. 5.0m away from you"
+        var deviceNameStr = ""
+        var describeStr = ""
+        var deviceIconStr = ""
+        if myDevices.count == 0 && otherDevices.count == 0 {
+            
+        } else if myDevices.count == 0 && otherDevices.count != 0 {
+            let devi = otherDevices[indexPath.item]
+            deviceIconStr = devi.deviceTagIconName(isSmall: true)
+            deviceNameStr = devi.name
+            describeStr = "Approx. \(devi.fetchDistanceString()) away from you"
+        } else if myDevices.count != 0 && otherDevices.count == 0 {
+            let devi = myDevices[indexPath.item]
+            deviceIconStr = devi.deviceTagIconName(isSmall: true)
+            deviceNameStr = devi.name
+            describeStr = "Approx. \(devi.fetchDistanceString()) away from you"
+        } else {
+            if indexPath.section == 0 {
+                let devi = myDevices[indexPath.item]
+                deviceIconStr = devi.deviceTagIconName(isSmall: true)
+                deviceNameStr = devi.name
+                describeStr = "Approx. \(devi.fetchDistanceString()) away from you"
+                cell.favoButton.isSelected = true
+            } else {
+                let devi = otherDevices[indexPath.item]
+                deviceIconStr = devi.deviceTagIconName(isSmall: true)
+                deviceNameStr = devi.name
+                describeStr = "Approx. \(devi.fetchDistanceString()) away from you"
+                cell.favoButton.isSelected = false
+            }
+
+        }
+        cell.contentImgV.image = UIImage(named: deviceIconStr)
+        cell.deviceNameLabel.text = deviceNameStr
+        cell.describeLabel.text = describeStr
         cell.favoClickBlock = {
             [weak self] in
             guard let `self` = self else {return}
@@ -105,9 +141,10 @@ extension BSiegBlueDeviceCollectionView: UICollectionViewDataSource {
                 
             }
         }
-        //TODO: 检查收藏按钮的状态
+         
         
-        cell.favoButton.isSelected = true
+        
+        
         
         return cell
     }
@@ -151,7 +188,7 @@ extension BSiegBlueDeviceCollectionView: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let bottomOffset: CGFloat = 130
+        let bottomOffset: CGFloat = 160
         if myDevices.count == 0 && otherDevices.count == 0 {
             return UIEdgeInsets(top: 10, left: 24, bottom: bottomOffset, right: 24)
         } else if myDevices.count == 0 && otherDevices.count != 0 {
@@ -219,7 +256,25 @@ extension BSiegBlueDeviceCollectionView: UICollectionViewDelegateFlowLayout {
 extension BSiegBlueDeviceCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        itemclickBlock?()
+        if myDevices.count == 0 && otherDevices.count == 0 {
+            
+        } else if myDevices.count == 0 && otherDevices.count != 0 {
+            let devi = otherDevices[indexPath.item]
+            itemclickBlock?(devi)
+        } else if myDevices.count != 0 && otherDevices.count == 0 {
+            let devi = myDevices[indexPath.item]
+            itemclickBlock?(devi)
+        } else {
+            if indexPath.section == 0 {
+                let devi = myDevices[indexPath.item]
+                itemclickBlock?(devi)
+            } else {
+                let devi = otherDevices[indexPath.item]
+                itemclickBlock?(devi)
+            }
+
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -241,7 +296,7 @@ class BSiegBlueHeader: UICollectionReusableView {
     
     func setupView() {
         self.addSubview(tiNameLabel)
-        tiNameLabel.font = UIFont(name: "Poppins", size: 20)
+        tiNameLabel.font = UIFont(name: "Poppins-Bold", size: 20)
         tiNameLabel.textColor = UIColor(hexString: "#242766")
         tiNameLabel.textAlignment = .left
         tiNameLabel.snp.makeConstraints {
@@ -301,7 +356,7 @@ class BSiegBlueDevicePreviewCell: PZSwipedCollectionViewCell {
         //
         
         self.addSubview(deviceNameLabel)
-        deviceNameLabel.font = UIFont(name: "Poppins", size: 14)
+        deviceNameLabel.font = UIFont(name: "Poppins-Bold", size: 14)
         deviceNameLabel.textColor = UIColor(hexString: "#242766")
         deviceNameLabel.lineBreakMode = .byTruncatingTail
         deviceNameLabel.textAlignment = .left
@@ -316,7 +371,8 @@ class BSiegBlueDevicePreviewCell: PZSwipedCollectionViewCell {
         self.addSubview(describeLabel)
         describeLabel.font = UIFont(name: "Poppins", size: 12)
         describeLabel.textColor = UIColor(hexString: "#242766")?.withAlphaComponent(0.5)
-        describeLabel.lineBreakMode = .byTruncatingTail
+//        describeLabel.lineBreakMode = .byTruncatingTail
+        describeLabel.adjustsFontSizeToFitWidth = true
         describeLabel.textAlignment = .left
         describeLabel.snp.makeConstraints {
             $0.left.equalTo(iconbgV.snp.right).offset(15)
