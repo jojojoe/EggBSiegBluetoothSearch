@@ -35,7 +35,7 @@ class BSiegDeviceContentVC: UIViewController {
         super.viewDidLoad()
 
         setupV()
-        
+        updateFavoriteStatus()
         
         
     }
@@ -77,7 +77,17 @@ extension BSiegDeviceContentVC {
                 }
             }
         } else {
-            
+            bluetoothDevice.stopTracking {[weak self] error in
+                guard let `self` = self else {return}
+                guard error == nil else { return }
+                DispatchQueue.main.async {
+                    [weak self] in
+                    guard let `self` = self else {return}
+                    self.updateFavoriteStatus()
+                    BSiesDeviceManager.default.didUpdateDevices()
+                    self.fatherVC.scanCollectionV.updateContentDevice()
+                }
+            }
         }
     }
 }
@@ -285,7 +295,7 @@ extension BSiegDeviceContentVC {
     }
     
     @objc func positionBtnClick(sender: BSiegToolBtn) {
-        let vc = BSiegDeviceMapPositionVC()
+        let vc = BSiegDeviceMapPositionVC(bluetoothDevice: bluetoothDevice)
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

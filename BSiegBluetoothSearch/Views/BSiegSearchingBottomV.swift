@@ -84,7 +84,7 @@ class BSiegSearchingBottomV: UIView {
         //
         
         searchingBottomV.addSubview(searingCountInfoLabel)
-        searingCountInfoLabel.text = "7 nearby devices found"
+        searingCountInfoLabel.text = "0 nearby devices found"
         searingCountInfoLabel.font = UIFont(name: "Poppins", size: 12)
         searingCountInfoLabel.textColor = UIColor(hexString: "#242766")?.withAlphaComponent(0.5)
         searingCountInfoLabel.textAlignment = .center

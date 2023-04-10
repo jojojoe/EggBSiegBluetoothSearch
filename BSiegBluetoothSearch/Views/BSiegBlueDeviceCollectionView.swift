@@ -25,7 +25,7 @@ class BSiegBlueDeviceCollectionView: UIView {
     }
     
     func updateContentDevice() {
-        myDevices = BSiesDeviceManager.default.trackedDevices
+        myDevices = BSiesDeviceManager.default.currentMyDevices
         otherDevices = BSiesDeviceManager.default.otherTrackedDevices
         collection.reloadData()
     }

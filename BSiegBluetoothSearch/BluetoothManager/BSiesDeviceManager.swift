@@ -16,6 +16,7 @@ class BSiesDeviceManager {
     
     var scannedDevices: [Device] = []
     var trackedDevices: [Device] = []
+    var currentMyDevices: [Device] = []
     var otherTrackedDevices: [Device] = []
 
     var deviceScanningBlock: (()->Void)?
@@ -42,10 +43,12 @@ class BSiesDeviceManager {
         self.getTrackedDevices()
         let trackedDevices = self.trackedDevices
         let scannedDevices = devices
+        var currenttMyDevices: [Device] = []
         var otherDevices: [Device] = []
         for device in scannedDevices {
             if trackedDevices.contains(device) {
                 device.isTracking = true
+                currenttMyDevices.append(device)
 //        updateDeviceLocation(device: device)
             } else {
                 otherDevices.append(device)
@@ -53,7 +56,9 @@ class BSiesDeviceManager {
         }
         
         self.scannedDevices = scannedDevices
+        
         self.otherTrackedDevices = otherDevices
+        self.currentMyDevices = currenttMyDevices
         
         self.deviceScanningBlock?()
     }
@@ -221,9 +226,9 @@ class Device {
 //        }
 //    }
     
-    func stopTracking() {
+    func stopTracking(_ completion: @escaping (Error?) -> Void) {
         self.isTracking = false
-        
+        self.repository.delete(a: self)
     }
     
     private func getLocation(_ completion: @escaping (Error?) -> Void) {

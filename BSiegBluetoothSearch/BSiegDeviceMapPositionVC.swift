@@ -17,6 +17,8 @@ class BSiegDeviceMapPositionVC: UIViewController {
     let infoPostionLabel = UILabel()
     var bluetoothDevice: Device
     let locationManager:CLLocationManager = CLLocationManager()
+    var firstDisplay = true
+    
     
     init(bluetoothDevice: Device) {
         self.bluetoothDevice = bluetoothDevice
@@ -29,12 +31,23 @@ class BSiegDeviceMapPositionVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapView.mapType = .standard
+        mapView.delegate = self
+        mapView.showsUserLocation = true
+        mapView.userTrackingMode = .followWithHeading
+        
+        //
         locationManager.delegate = self
+        locationManager.distanceFilter = kCLDistanceFilterNone
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
         locationManager.requestAlwaysAuthorization()
         setupV()
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.startMonitoringSignificantLocationChanges()
+            locationManager.startUpdatingLocation()
+        }
         
-        locationManager.startUpdatingLocation()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -43,6 +56,8 @@ class BSiegDeviceMapPositionVC: UIViewController {
     }
     
     func setupLocationPositionNow() {
+        
+        
         
     }
     
@@ -167,25 +182,61 @@ class BSiegDeviceMapPositionVC: UIViewController {
     
 }
 
+extension BSiegDeviceMapPositionVC: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        
+        if firstDisplay {
+            if let coord2d = userLocation.location?.coordinate {
+                let span: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+                let region: MKCoordinateRegion = MKCoordinateRegion(center: coord2d, span: span)
+                mapView.setRegion(region, animated: true)
+                firstDisplay = false
+            }
+
+            
+        }
+    }
+}
+
 extension BSiegDeviceMapPositionVC: CLLocationManagerDelegate {
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-     
-        let location:CLLocation = locations[locations.count-1] as! CLLocation
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        if manager.authorizationStatus == .authorizedAlways || manager.authorizationStatus == .authorizedWhenInUse {
+            manager.startUpdatingLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        let location:CLLocation = locations[locations.count-1]
+        
+        
         if (location.horizontalAccuracy > 0) {
             debugPrint("纬度=\(location.coordinate.latitude)  ;经度=\(location.coordinate.longitude)")
+            
+            mapView.setCenter(location.coordinate, animated: true)
+            
             let geoCoder = CLGeocoder()
             
             geoCoder.reverseGeocodeLocation(location) {[weak self] placemarks, errorr in
                 guard let `self` = self else {return}
-                if let place = placemarks?.first {
+                if let place = placemarks?.first as? CLPlacemark {
                     DispatchQueue.main.async {
-                        let positionStr = place.thoroughfare + place.locality + place.subLocality + place.administrativeArea + place.country
+                        let thoroughfare: String = place.thoroughfare ?? ""
+                        let locality: String = place.locality ?? ""
+                        let subLocality: String = place.subLocality ?? ""
+                        let administrativeArea: String = place.administrativeArea ?? ""
+                        let country: String = place.country ?? ""
+                        
+                        let positionStr = "\(thoroughfare) \(locality) \(subLocality) \(administrativeArea) \(country)"
+                        debugPrint("positionStr - \(positionStr)")
                         self.infoPostionLabel.text = positionStr
-
+//
                     }
                 }
             }
             locationManager.stopUpdatingLocation()
         }
     }
+    
 }
