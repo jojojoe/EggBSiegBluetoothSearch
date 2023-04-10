@@ -8,7 +8,7 @@
 import UIKit
 
 class BSiegDeviceContentVC: UIViewController {
-
+    var fatherVC: ViewController!
     let tiNameLabel = UILabel()
     let vibrationBtn = BSiegToolBtn()
     let positionBtn = BSiegToolBtn()
@@ -16,13 +16,28 @@ class BSiegDeviceContentVC: UIViewController {
     let voiceBtn = BSiegToolBtn()
     let centerV = UIView()
     let contentImgV = UIImageView()
-    
+    var bluetoothDevice: Device
     let didlayoutOnce: Once = Once()
+    let distancePersentLabel = UILabel()
+    
+    
+    init(bluetoothDevice: Device) {
+        self.bluetoothDevice = bluetoothDevice
+        super.init(nibName: nil, bundle: nil)
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupV()
+        
+        
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -35,7 +50,36 @@ class BSiegDeviceContentVC: UIViewController {
 
     }
     
+    func updateFavoriteStatus() {
+        if bluetoothDevice.isTracking {
+            favoriteBtn.isSelected = true
+            favoriteBtn.iconImgV.image = UIImage(named: "icon_heart_s")
+        } else {
+            favoriteBtn.isSelected = false
+            favoriteBtn.iconImgV.image = UIImage(named: "icon_heart")
+        }
+    }
 
+}
+
+extension BSiegDeviceContentVC {
+    func trackStatusChange(isTracking: Bool) {
+        if isTracking {
+            bluetoothDevice.startTracking {[weak self] error in
+                guard let `self` = self else {return}
+                guard error == nil else { return }
+                DispatchQueue.main.async {
+                    [weak self] in
+                    guard let `self` = self else {return}
+                    self.updateFavoriteStatus()
+                    BSiesDeviceManager.default.didUpdateDevices()
+                    self.fatherVC.scanCollectionV.updateContentDevice()
+                }
+            }
+        } else {
+            
+        }
+    }
 }
 
 extension BSiegDeviceContentVC {
@@ -70,10 +114,10 @@ extension BSiegDeviceContentVC {
             $0.height.greaterThanOrEqualTo(17)
         }
         tiNameLabel.lineBreakMode = .byTruncatingTail
-        tiNameLabel.text = "Device Name"
+        tiNameLabel.text = bluetoothDevice.name
         tiNameLabel.textAlignment = .center
         tiNameLabel.textColor = UIColor(hexString: "#242766")
-        tiNameLabel.font = UIFont(name: "Poppins", size: 24)
+        tiNameLabel.font = UIFont(name: "Poppins-Bold", size: 24)
         
         //
         let founditBtn = UIButton()
@@ -89,7 +133,7 @@ extension BSiegDeviceContentVC {
         founditBtn.clipsToBounds = true
         founditBtn.setTitle("I Found It!", for: .normal)
         founditBtn.setTitleColor(.white, for: .normal)
-        founditBtn.titleLabel?.font = UIFont(name: "Poppins", size: 16)
+        founditBtn.titleLabel?.font = UIFont(name: "Poppins-Bold", size: 16)
         founditBtn.addTarget(self, action: #selector(founditBtnClick(sender: )), for: .touchUpInside)
         
         //
@@ -177,20 +221,22 @@ extension BSiegDeviceContentVC {
             $0.top.equalToSuperview().offset(30)
             $0.left.equalToSuperview().offset(30)
         }
-        contentImgV.image = UIImage(named: "hometopbluetooth")
+        let iconName = bluetoothDevice.deviceTagIconName()
+        contentImgV.image = UIImage(named: iconName)
         
         //
-        let distancePersentLabel = UILabel()
+        
         view.addSubview(distancePersentLabel)
         distancePersentLabel.snp.makeConstraints {
             $0.top.equalTo(iconbgV.snp.bottom).offset(30)
             $0.centerX.equalToSuperview()
             $0.width.height.greaterThanOrEqualTo(32)
         }
-        distancePersentLabel.text = "75%"
+        
+        distancePersentLabel.text = bluetoothDevice.deviceDistancePercentStr()
         distancePersentLabel.textAlignment = .center
         distancePersentLabel.textColor = UIColor(hexString: "#242766")
-        distancePersentLabel.font = UIFont(name: "Poppins", size: 32)
+        distancePersentLabel.font = UIFont(name: "Poppins-Bold", size: 32)
         
         //
         let infoLabel = UILabel()
@@ -247,8 +293,10 @@ extension BSiegDeviceContentVC {
         sender.isSelected = !sender.isSelected
         if sender.isSelected == true {
             sender.iconImgV.image = UIImage(named: "icon_heart_s")
+            trackStatusChange(isTracking: true)
         } else {
             sender.iconImgV.image = UIImage(named: "icon_heart")
+            trackStatusChange(isTracking: false)
         }
         
     }

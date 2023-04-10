@@ -79,7 +79,7 @@ class BSiegSearchingBottomV: UIView {
         }
         searingLabel1.text = "Searching..."
         searingLabel1.textColor = UIColor(hexString: "#242766")
-        searingLabel1.font = UIFont(name: "Poppins", size: 20)
+        searingLabel1.font = UIFont(name: "Poppins-Bold", size: 20)
         
         //
         
@@ -98,6 +98,10 @@ class BSiegSearchingBottomV: UIView {
 
     }
     
+    func updateSearingCountInfoLabel() {
+        
+        searingCountInfoLabel.text = "\(BSiesDeviceManager.default.scannedDevices.count) nearby devices found"
+    }
     
     
     @objc func searchingCloseBtnClick(sender: UIButton) {

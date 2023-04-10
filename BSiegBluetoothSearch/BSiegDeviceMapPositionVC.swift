@@ -15,10 +15,26 @@ class BSiegDeviceMapPositionVC: UIViewController {
     let tiNameLabel = UILabel()
     let infoDevNameLabel = UILabel()
     let infoPostionLabel = UILabel()
+    var bluetoothDevice: Device
+    let locationManager:CLLocationManager = CLLocationManager()
+    
+    init(bluetoothDevice: Device) {
+        self.bluetoothDevice = bluetoothDevice
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
         setupV()
+        
+        locationManager.startUpdatingLocation()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -58,10 +74,10 @@ class BSiegDeviceMapPositionVC: UIViewController {
             $0.height.greaterThanOrEqualTo(17)
         }
         tiNameLabel.lineBreakMode = .byTruncatingTail
-        tiNameLabel.text = "Device Name"
+        tiNameLabel.text = bluetoothDevice.name
         tiNameLabel.textAlignment = .center
         tiNameLabel.textColor = UIColor(hexString: "#242766")
-        tiNameLabel.font = UIFont(name: "Poppins", size: 24)
+        tiNameLabel.font = UIFont(name: "Poppins-Bold", size: 24)
         
         //
         setupSearchAgainV()
@@ -99,7 +115,7 @@ class BSiegDeviceMapPositionVC: UIViewController {
         founditBtn.clipsToBounds = true
         founditBtn.setTitle("I Found It!", for: .normal)
         founditBtn.setTitleColor(.white, for: .normal)
-        founditBtn.titleLabel?.font = UIFont(name: "Poppins", size: 16)
+        founditBtn.titleLabel?.font = UIFont(name: "Poppins-Bold", size: 16)
         founditBtn.addTarget(self, action: #selector(founditBtnClick(sender: )), for: .touchUpInside)
         
         //
@@ -111,12 +127,12 @@ class BSiegDeviceMapPositionVC: UIViewController {
             $0.width.height.greaterThanOrEqualTo(17)
         }
         infoDevNameLabel.lineBreakMode = .byTruncatingTail
-        infoDevNameLabel.text = "Device Name"
+        infoDevNameLabel.text = bluetoothDevice.name
         infoDevNameLabel.textAlignment = .center
         infoDevNameLabel.textColor = UIColor(hexString: "#242766")
-        infoDevNameLabel.font = UIFont(name: "Poppins", size: 16)
+        infoDevNameLabel.font = UIFont(name: "Poppins-Bold", size: 16)
         
-        //
+         
         
         bottomBar.addSubview(infoPostionLabel)
         infoPostionLabel.snp.makeConstraints {
@@ -126,7 +142,7 @@ class BSiegDeviceMapPositionVC: UIViewController {
             $0.centerX.equalToSuperview()
         }
         infoPostionLabel.numberOfLines = 0
-        infoPostionLabel.text = "meilan District, haikou City, hainan Province, China"
+        infoPostionLabel.text = ""
         infoPostionLabel.textAlignment = .left
         infoPostionLabel.textColor = UIColor(hexString: "#242766")!.withAlphaComponent(0.5)
         infoPostionLabel.font = UIFont(name: "Poppins", size: 12)
@@ -149,4 +165,27 @@ class BSiegDeviceMapPositionVC: UIViewController {
          
     }
     
+}
+
+extension BSiegDeviceMapPositionVC: CLLocationManagerDelegate {
+    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+     
+        let location:CLLocation = locations[locations.count-1] as! CLLocation
+        if (location.horizontalAccuracy > 0) {
+            debugPrint("纬度=\(location.coordinate.latitude)  ;经度=\(location.coordinate.longitude)")
+            let geoCoder = CLGeocoder()
+            
+            geoCoder.reverseGeocodeLocation(location) {[weak self] placemarks, errorr in
+                guard let `self` = self else {return}
+                if let place = placemarks?.first {
+                    DispatchQueue.main.async {
+                        let positionStr = place.thoroughfare + place.locality + place.subLocality + place.administrativeArea + place.country
+                        self.infoPostionLabel.text = positionStr
+
+                    }
+                }
+            }
+            locationManager.stopUpdatingLocation()
+        }
+    }
 }
