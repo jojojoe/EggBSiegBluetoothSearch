@@ -119,16 +119,16 @@ extension BSiesBluetoothManager: CBCentralManagerDelegate {
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         
-        print("peripheral - \(peripheral)")
-        print("advertisementData - \(advertisementData)")
-        print("RSSI - \(RSSI)")
+        debugPrint("peripheral - \(peripheral)")
+        debugPrint("advertisementData - \(advertisementData)")
+        debugPrint("RSSI - \(RSSI)")
         
         if let power = advertisementData[CBAdvertisementDataTxPowerLevelKey] as? Double {
             self.txPower = power
         }
         
         if let txPower = self.txPower {
-            print("Distance is ", pow(10, ((txPower - Double(truncating: RSSI))/20)))
+            debugPrint("Distance is ", pow(10, ((txPower - Double(truncating: RSSI))/20)))
         }
         
         if let name = peripheral.name {
@@ -158,9 +158,17 @@ extension BSiesBluetoothManager: CBCentralManagerDelegate {
     }
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        print("did connect \(peripheral)")
+        debugPrint("did connect \(peripheral)")
+        peripheral.delegate = self
+        peripheral.discoverServices(nil)
     }
     
+}
+
+extension BSiesBluetoothManager: CBPeripheralDelegate {
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        
+    }
 }
 
 
