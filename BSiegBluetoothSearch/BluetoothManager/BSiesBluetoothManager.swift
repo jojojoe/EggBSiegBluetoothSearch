@@ -9,10 +9,13 @@ import UIKit
 import CoreBluetooth
 
 
-struct Peripheral: Equatable {
+class Peripheral: Equatable {
     let peripheral: CBPeripheral
-    let rssi: NSNumber
-    
+    var rssi: NSNumber
+    init(peripheral: CBPeripheral, rssi: NSNumber) {
+        self.peripheral = peripheral
+        self.rssi = rssi
+    }
     static func == (lhs: Peripheral, rhs: Peripheral) -> Bool {
         return lhs.peripheral.identifier == rhs.peripheral.identifier
     }
@@ -31,7 +34,10 @@ class BSiesBluetoothManager: NSObject {
     var delegate: BluetoothManagerDelegate?
     let queue = DispatchQueue(label: "test", qos: .background)//DispatchQueue.init(label: "test")
     var isStartScaning: Bool = false
-    var centralManagerStatus: Bool = false
+    var centralManagerStatus: Bool?
+    
+    var deviceBluetoothDeniedBlock: (()->Void)?
+    
     override init() {
         super.init()
         
@@ -43,18 +49,21 @@ class BSiesBluetoothManager: NSObject {
         centralManager = CBCentralManager(delegate: self, queue: queue)
     }
     
-    func startScan() {
+    func startScan(deviceUUId: UUID? = nil) {
         isStartScaning = true
-        if centralManagerStatus {
-            peripherals = []
-            DispatchQueue.global().async {
-                [weak self] in
-                guard let `self` = self else {return}
-                self.centralManager.scanForPeripherals(withServices: nil)
-            }
+//        peripherals = []
+//        BSiesDeviceManager.default.scannedDevices = []
+        DispatchQueue.global().async {
+            [weak self] in
+            guard let `self` = self else {return}
+            self.centralManager.scanForPeripherals(withServices: nil)
+//            if let uuidstr = deviceUUId {
+//                self.centralManager.scanForPeripherals(withServices: [CBUUID(nsuuid: uuidstr)])
+//            } else {
+//                self.centralManager.scanForPeripherals(withServices: nil)
+//            }
+
         }
-       
-        
     }
     
     func stopScan() {
@@ -70,19 +79,38 @@ class BSiesBluetoothManager: NSObject {
         }
     }
     
-    func getDevices() -> [Device] {
+    func getDevices() {
         
         var devices: [Device] = []
+        debugPrint("peripherals count = \(peripherals.count)")
         
         for peripheral in peripherals {
             if let deviceName = peripheral.peripheral.name {
-                let de = Device(id: peripheral.peripheral.identifier, name: deviceName, rssi: Int(peripheral.rssi), isTracking: nil, givenName: nil, location: nil, user_id: nil)
-                devices.append(de)
+                if let devi = BSiesDeviceManager.default.scannedDevices.first(where: { dev in
+                    dev.id == peripheral.peripheral.identifier
+                }) {
+                    devi.rssi = Int(peripheral.rssi)
+                    if deviceName == "BJ🤣cbYq😝R2R🎱" {
+                        debugPrint("BJ🤣cb -deviDress - \(devi)")
+                    }
+                    
+                } else {
+                    let de = Device(id: peripheral.peripheral.identifier, name: deviceName, rssi: Int(peripheral.rssi), isTracking: nil, givenName: nil, location: nil, user_id: nil)
+                    BSiesDeviceManager.default.scannedDevices.append(de)
+                    if deviceName == "BJ🤣cbYq😝R2R🎱" {
+                        debugPrint("BJ🤣cb -deviDress - \(de)")
+                    }
+                }
+                
+                
             }
             
+                
         }
         
-        return devices
+        debugPrint("")
+        debugPrint("devices count - \(devices.count)")
+        debugPrint("BSiesDeviceManager.default.scannedDevices count = \(BSiesDeviceManager.default.scannedDevices.count)")
     }
     
 }
@@ -94,24 +122,28 @@ extension BSiesBluetoothManager: CBCentralManagerDelegate {
         centralManagerStatus = false
         switch central.state {
         case .unknown:
-            print("central.state is .unknown")
+            debugPrint("central.state is .unknown")
+            self.deviceBluetoothDeniedBlock?()
         case .resetting:
-            print("central.state is .resetting")
+            debugPrint("central.state is .resetting")
+            self.deviceBluetoothDeniedBlock?()
         case .unsupported:
-            print("central.state is .unsupported")
+            debugPrint("central.state is .unsupported")
+            self.deviceBluetoothDeniedBlock?()
         case .unauthorized:
-            print("central.state is .unauthorized")
+            debugPrint("central.state is .unauthorized")
+            self.deviceBluetoothDeniedBlock?()
         case .poweredOff:
-            print("central.state is .poweroff")
+            debugPrint("central.state is .poweroff")
+            self.deviceBluetoothDeniedBlock?()
         case .poweredOn:
-            print("central.state is .poweredOn")
+            debugPrint("central.state is .poweredOn")
             self.centralManagerStatus = true
-            if self.isStartScaning {
-                self.centralManager.scanForPeripherals(withServices: nil)
-            }
-            
+            self.isStartScaning = true
+            self.centralManager.scanForPeripherals(withServices: nil)
         @unknown default:
-            print("central.state is .@unknown default")
+            
+            debugPrint("central.state is .@unknown default")
         }
     }
     
@@ -126,7 +158,7 @@ extension BSiesBluetoothManager: CBCentralManagerDelegate {
         if let power = advertisementData[CBAdvertisementDataTxPowerLevelKey] as? Double {
             self.txPower = power
         }
-        
+        debugPrint("current  txPower - \(txPower)")
         if let txPower = self.txPower {
             debugPrint("Distance is ", pow(10, ((txPower - Double(truncating: RSSI))/20)))
         }
@@ -138,17 +170,28 @@ extension BSiesBluetoothManager: CBCentralManagerDelegate {
                     debugPrint("name = \(name) - characteristics = \(servione.characteristics)")
                 }
             }
-            
+            debugPrint("peripheral.name = \(peripheral.name)")
             let _peripheral = Peripheral(peripheral: peripheral, rssi: RSSI)
             
-            
-            
             if self.peripherals.contains(_peripheral) {
+                if let indexp = self.peripherals.firstIndex(of: _peripheral) {
+                    let peri = self.peripherals[indexp]
+                    peri.rssi = RSSI
+                    debugPrint("fix rssi - \(RSSI)")
+                    if name == "BJ🤣cbYq😝R2R🎱" {
+                        debugPrint("fix BJ🤣cb rssi - \(RSSI)")
+                    }
+                    getDevices()
+                    self.delegate?.didUpdateDevices()
+                }
                 return
             } else {
                 debugPrint("device name = \(peripheral.name) - deviceid = \(peripheral.identifier)")
+                if name == "BJ🤣cbYq😝R2R🎱" {
+                    debugPrint("fix BJ🤣cb rssi - \(RSSI)")
+                }
                 self.peripherals.append(_peripheral)
-                //centralManager.connect(_peripheral.peripheral, options: nil)
+                getDevices()
                 self.delegate?.didUpdateDevices()
             }
         }

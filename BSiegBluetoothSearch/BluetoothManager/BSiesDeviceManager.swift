@@ -31,31 +31,28 @@ class BSiesDeviceManager {
         self.trackedDevices = self.repository.getAll()
     }
     
-    func startScan() {
-        BSiesBluetoothManager.default.startScan()
-    }
     
-    func stopScan() {
-        BSiesBluetoothManager.default.stopScan()
-    }
-    
-    func loadScannedDevices(devices: [Device]) {
+    func loadScannedDevices() {
         self.getTrackedDevices()
         let trackedDevices = self.trackedDevices
-        let scannedDevices = devices
+//        let scannedDevices = scannedDevices
         var currenttMyDevices: [Device] = []
         var otherDevices: [Device] = []
         for device in scannedDevices {
+            if device.name == "BJ🤣cbYq😝R2R🎱" {
+                debugPrint("BJ🤣cb -deviDress - \(device)")
+            }
             if trackedDevices.contains(device) {
                 device.isTracking = true
                 currenttMyDevices.append(device)
 //        updateDeviceLocation(device: device)
             } else {
+                device.isTracking = false
                 otherDevices.append(device)
             }
         }
         
-        self.scannedDevices = scannedDevices
+//        self.scannedDevices = scannedDevices
         
         self.otherTrackedDevices = otherDevices
         self.currentMyDevices = currenttMyDevices
@@ -83,7 +80,7 @@ class BSiesDeviceManager {
 extension BSiesDeviceManager: BluetoothManagerDelegate {
     func didUpdateDevices() {
         
-        self.loadScannedDevices(devices: BSiesBluetoothManager.default.getDevices())
+        self.loadScannedDevices()
         
     }
 }
@@ -116,11 +113,68 @@ class Device {
     }
     
     func deviceDistancePercent() -> Double {
-        return 0.75
+        if let rssi_m = rssi {
+            var persValue: Double = 0
+            
+            let distance = calculateDistance(rssi: rssi_m)
+            
+            if distance.isLessThanOrEqualTo(1.0) {
+                persValue = 1
+            }
+            if !distance.isLess(than: 1.0) && distance.isLess(than: 2.0) {
+                persValue = 0.90
+            }
+            if !distance.isLess(than: 2.0) && distance.isLess(than: 3.0) {
+                persValue = 0.80
+            }
+            if !distance.isLess(than: 3.0) && distance.isLess(than: 4.0) {
+                persValue = 0.70
+            }
+            if !distance.isLess(than: 4.0) && distance.isLess(than: 5.0) {
+                persValue = 0.60
+            }
+            if !distance.isLess(than: 5.0) && distance.isLess(than: 6.0) {
+                persValue = 0.55
+            }
+            if !distance.isLess(than: 5.0) && distance.isLess(than: 7.0) {
+
+                persValue = 0.50
+            }
+            if !distance.isLess(than: 7.0) && distance.isLess(than: 8.0) {
+
+                persValue = 0.40
+            }
+            if !distance.isLess(than: 8.0) && distance.isLess(than: 9.0) {
+
+                persValue = 0.30
+            }
+            if !distance.isLess(than: 9.0) && distance.isLess(than: 10.0) {
+
+                persValue = 0.20
+            }
+            if !distance.isLess(than: 10.0) && distance.isLess(than: 15.0) {
+
+                persValue = 0.15
+            }
+            if !distance.isLess(than: 15.0) && distance.isLess(than: 20.0) {
+
+                persValue = 0.10
+            }
+            if !distance.isLess(than: 20.0) && distance.isLess(than: 30.0) {
+
+                persValue = 0.05
+            }
+            if !distance.isLess(than: 30.0) {
+
+                persValue = 0.03
+            }
+            return persValue
+        }
+        return 0
     }
     
     func deviceDistancePercentStr() -> String {
-        return "75%"
+        return "\(Int(deviceDistancePercent() * 100))%"
     }
     
     func deviceTagIconName(isSmall: Bool = false) -> String {
@@ -169,8 +223,7 @@ class Device {
     }
     
     func calculateDistance(rssi: Int) -> Double {
-      var txPower = -59
-      
+      var txPower =  -59
       if (rssi == 0) {
         return -1.0
       }

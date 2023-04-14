@@ -12,6 +12,36 @@ class BSiegSearchingBottomV: UIView {
     let searchingBottomV = UIView()
     let searingCountInfoLabel = UILabel()
     var searchingCloseBlock: (()->Void)?
+    let centerScanAniImgV = UIImageView()
+    
+    
+    private let radarAnimation = "radarAnimation"
+    private var animationLayer: CALayer?
+    private var animationGroup: CAAnimationGroup?
+    
+    
+    func startScanRotateAnimal() {
+        makeRadarAnimation(animalView: centerScanAniImgV)
+        
+    }
+    
+    func stopScanRotateAnimal() {
+        centerScanAniImgV.layer.removeAnimation(forKey: radarAnimation)
+    }
+    
+    private func makeRadarAnimation(animalView: UIView) {
+           
+        let animation = CABasicAnimation(keyPath: "transform.rotation.z")
+        animation.fromValue = 0.0
+        animation.toValue = CGFloat.pi * 2
+        animation.duration  = 2
+        animation.autoreverses = false
+        animation.fillMode = .forwards
+        animation.repeatCount = HUGE
+        
+        animalView.layer.add(animation, forKey: radarAnimation)
+         
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,13 +52,21 @@ class BSiegSearchingBottomV: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     func setupView() {
         //
-        
+        let bgBtn = UIButton()
+        addSubview(bgBtn)
+        bgBtn.snp.makeConstraints {
+            $0.left.right.top.bottom.equalToSuperview()
+        }
+        bgBtn.addTarget(self, action: #selector(searchingCloseBtnClick(sender: )), for: .touchUpInside)
+        //
         addSubview(searchingBottomV)
         searchingBottomV.backgroundColor = .clear
         searchingBottomV.snp.makeConstraints {
-            $0.top.left.right.bottom.equalToSuperview()
+            $0.left.right.bottom.equalToSuperview()
+            $0.height.equalTo(362)
         }
         searchingBottomV.clipsToBounds = false
         searchingBottomV.layer.cornerRadius = 30
@@ -52,7 +90,7 @@ class BSiegSearchingBottomV: UIView {
         searingCloseBtn.addTarget(self, action: #selector(searchingCloseBtnClick(sender: )), for: .touchUpInside)
         
         //
-        let centerScanAniImgV = UIImageView()
+        
         searchingBottomV.addSubview(centerScanAniImgV)
         centerScanAniImgV.snp.makeConstraints {
             $0.centerX.equalToSuperview()

@@ -176,7 +176,11 @@ class BSiegDeviceMapPositionVC: UIViewController {
     }
     
     @objc func founditBtnClick(sender: UIButton) {
-        
+        if self.navigationController != nil {
+            self.navigationController?.popViewController()
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
          
     }
     

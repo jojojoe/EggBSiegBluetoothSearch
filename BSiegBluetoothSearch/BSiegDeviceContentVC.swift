@@ -10,6 +10,7 @@ import UIKit
 class BSiegDeviceContentVC: UIViewController {
     var fatherVC: ViewController!
     let tiNameLabel = UILabel()
+    let backB = UIButton()
     let vibrationBtn = BSiegToolBtn()
     let positionBtn = BSiegToolBtn()
     let favoriteBtn = BSiegToolBtn()
@@ -19,7 +20,7 @@ class BSiegDeviceContentVC: UIViewController {
     var bluetoothDevice: Device
     let didlayoutOnce: Once = Once()
     let distancePersentLabel = UILabel()
-    
+    var ring1V = RingProgressView()
     
     init(bluetoothDevice: Device) {
         self.bluetoothDevice = bluetoothDevice
@@ -37,8 +38,28 @@ class BSiegDeviceContentVC: UIViewController {
         setupV()
         updateFavoriteStatus()
         
+        if !BSiesBluetoothManager.default.isStartScaning {
+            BSiesBluetoothManager.default.startScan(deviceUUId: bluetoothDevice.id)
+        }
+        
+        BSiesDeviceManager.default.deviceScanningBlock = {
+            [weak self] in
+            guard let `self` = self else {return}
+            DispatchQueue.main.async {
+                self.updatePositionPersent()
+            }
+        }
         
     }
+    
+    func updatePositionPersent() {
+        if bluetoothDevice.name == "BJ🤣cbYq😝R2R🎱" {
+            debugPrint("BJ🤣cb -deviDress - \(bluetoothDevice)")
+        }
+        ring1V.progress = bluetoothDevice.deviceDistancePercent()
+        distancePersentLabel.text = bluetoothDevice.deviceDistancePercentStr()
+    }
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -104,7 +125,7 @@ extension BSiegDeviceContentVC {
         }
         
         //
-        let backB = UIButton()
+        
         view.addSubview(backB)
         backB.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
@@ -236,6 +257,19 @@ extension BSiegDeviceContentVC {
         
         //
         
+        iconbgV.addSubview(ring1V)
+        ring1V.frame = CGRect(x: 0, y: 0, width: centerV.frame.size.height/2, height: centerV.frame.size.height/2)
+        ring1V.startColor = UIColor(hexString: "#3971FF")!
+        ring1V.endColor = UIColor(hexString: "#3971FF")!
+        ring1V.ringWidth = 12
+        ring1V.backgroundRingColor = .clear
+        ring1V.hidesRingForZeroProgress = true
+        ring1V.shadowOpacity = 0
+        ring1V.progress = 0
+        
+        
+        //
+        
         view.addSubview(distancePersentLabel)
         distancePersentLabel.snp.makeConstraints {
             $0.top.equalTo(iconbgV.snp.bottom).offset(30)
@@ -268,6 +302,9 @@ extension BSiegDeviceContentVC {
     
     
     @objc func backBClick(sender: UIButton) {
+        
+        BSiesBluetoothManager.default.stopScan()
+        
         if self.navigationController != nil {
             self.navigationController?.popViewController()
         } else {
@@ -276,7 +313,7 @@ extension BSiegDeviceContentVC {
     }
     
     @objc func founditBtnClick(sender: UIButton) {
-        
+        backBClick(sender: backB)
          
     }
     

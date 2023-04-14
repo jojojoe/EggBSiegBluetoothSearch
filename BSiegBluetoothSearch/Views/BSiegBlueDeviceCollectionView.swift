@@ -103,37 +103,40 @@ extension BSiegBlueDeviceCollectionView: UICollectionViewDataSource {
         var deviceNameStr = ""
         var describeStr = ""
         var deviceIconStr = ""
+
+        var devi: Device?
+        
         if myDevices.count == 0 && otherDevices.count == 0 {
             
         } else if myDevices.count == 0 && otherDevices.count != 0 {
-            let devi = otherDevices[indexPath.item]
-            deviceIconStr = devi.deviceTagIconName(isSmall: true)
-            deviceNameStr = devi.name
-            describeStr = "Approx. \(devi.fetchDistanceString()) away from you"
+            devi = otherDevices[indexPath.item]
         } else if myDevices.count != 0 && otherDevices.count == 0 {
-            let devi = myDevices[indexPath.item]
-            deviceIconStr = devi.deviceTagIconName(isSmall: true)
-            deviceNameStr = devi.name
-            describeStr = "Approx. \(devi.fetchDistanceString()) away from you"
+            devi = myDevices[indexPath.item]
         } else {
             if indexPath.section == 0 {
-                let devi = myDevices[indexPath.item]
-                deviceIconStr = devi.deviceTagIconName(isSmall: true)
-                deviceNameStr = devi.name
-                describeStr = "Approx. \(devi.fetchDistanceString()) away from you"
+                devi = myDevices[indexPath.item]
                 cell.favoButton.isSelected = true
             } else {
-                let devi = otherDevices[indexPath.item]
-                deviceIconStr = devi.deviceTagIconName(isSmall: true)
-                deviceNameStr = devi.name
-                describeStr = "Approx. \(devi.fetchDistanceString()) away from you"
+                devi = otherDevices[indexPath.item]
                 cell.favoButton.isSelected = false
             }
 
         }
+        
+        deviceIconStr = devi?.deviceTagIconName(isSmall: true) ?? ""
+        deviceNameStr = devi?.name ?? ""
+        cell.ring1V.progress = devi?.deviceDistancePercent() ?? 0
         cell.contentImgV.image = UIImage(named: deviceIconStr)
         cell.deviceNameLabel.text = deviceNameStr
+        
+        let distanceStr = devi?.fetchDistanceString() ?? ""
+        if distanceStr.contains("Cannot") {
+            describeStr = distanceStr
+        } else {
+            describeStr = "Approx. \(describeStr) away from you"
+        }
         cell.describeLabel.text = describeStr
+        
         cell.favoClickBlock = {
             [weak self] in
             guard let `self` = self else {return}
@@ -260,16 +263,28 @@ extension BSiegBlueDeviceCollectionView: UICollectionViewDelegate {
             
         } else if myDevices.count == 0 && otherDevices.count != 0 {
             let devi = otherDevices[indexPath.item]
+            if devi.name == "BJ🤣cbYq😝R2R🎱" {
+                debugPrint("BJ🤣cb -deviDress - \(devi)")
+            }
             itemclickBlock?(devi)
         } else if myDevices.count != 0 && otherDevices.count == 0 {
             let devi = myDevices[indexPath.item]
+            if devi.name == "BJ🤣cbYq😝R2R🎱" {
+                debugPrint("BJ🤣cb -deviDress - \(devi)")
+            }
             itemclickBlock?(devi)
         } else {
             if indexPath.section == 0 {
                 let devi = myDevices[indexPath.item]
+                if devi.name == "BJ🤣cbYq😝R2R🎱" {
+                    debugPrint("BJ🤣cb -deviDress - \(devi)")
+                }
                 itemclickBlock?(devi)
             } else {
                 let devi = otherDevices[indexPath.item]
+                if devi.name == "BJ🤣cbYq😝R2R🎱" {
+                    debugPrint("BJ🤣cb -deviDress - \(devi)")
+                }
                 itemclickBlock?(devi)
             }
 
@@ -318,7 +333,7 @@ class BSiegBlueDevicePreviewCell: PZSwipedCollectionViewCell {
     let describeLabel = UILabel()
     var favoButton: UIButton!
     var favoClickBlock: (()->Void)?
-    
+    var ring1V = RingProgressView()
     
     
     override init(frame: CGRect) {
@@ -352,7 +367,16 @@ class BSiegBlueDevicePreviewCell: PZSwipedCollectionViewCell {
             $0.center.equalTo(iconbgV)
             $0.width.height.equalTo(32)
         }
-        
+        //
+        iconbgV.addSubview(ring1V)
+        ring1V.frame = CGRect(x: 0, y: 0, width: 48, height: 48)
+        ring1V.startColor = UIColor(hexString: "#3971FF")!
+        ring1V.endColor = UIColor(hexString: "#3971FF")!
+        ring1V.ringWidth = 3
+        ring1V.backgroundRingColor = .clear
+        ring1V.hidesRingForZeroProgress = true
+        ring1V.shadowOpacity = 0
+        ring1V.progress = 0
         //
         
         self.addSubview(deviceNameLabel)

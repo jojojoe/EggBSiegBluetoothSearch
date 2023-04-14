@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     let searchLaunchPageV = UIView()
     let scanCollectionV = BSiegBlueDeviceCollectionView()
     let searchingBottomV = BSiegSearchingBottomV()
+   
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,17 +23,61 @@ class ViewController: UIViewController {
         setupV()
         
         // begin scan search
-        searchBtnClick()
+        
+        
+        scanCollectionV.isHidden = false
+        
+        showSearchingBanner(isShow: true)
+    }
+    
+    func showSearchingBanner(isShow: Bool) {
+        if isShow {
+            searchingBottomV.isHidden = false
+            searchingBottomV.startScanRotateAnimal()
+        } else {
+            searchingBottomV.isHidden = true
+            searchingBottomV.stopScanRotateAnimal()
+        }
+
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        BSiesDeviceManager.default.deviceScanningBlock = {
+            [weak self] in
+            guard let `self` = self else {return}
+            DispatchQueue.main.async {
+                self.scanCollectionV.updateContentDevice()
+                self.searchingBottomV.updateSearingCountInfoLabel()
+            }
+        }
     }
     
     func setupBlueCentral() {
         BSiesBluetoothManager.default.setupCentral()
+        BSiesBluetoothManager.default.deviceBluetoothDeniedBlock = {
+            [weak self] in
+            guard let `self` = self else {return}
+            DispatchQueue.main.async {
+                self.showBluetoothDeniedAlertV()
+            }
+        }
+        
     }
     
 }
 
 extension ViewController {
-//    BSiesDeviceManager
+    
+    func startScanRotateAnimal() {
+        
+    }
+    
+    func stopScanRotateAnimal() {
+        
+    }
+    
     
 }
 
@@ -179,8 +225,8 @@ extension ViewController {
         
         view.addSubview(searchingBottomV)
         searchingBottomV.snp.makeConstraints {
-            $0.left.right.bottom.equalToSuperview()
-            $0.height.equalTo(362)
+            $0.left.top.right.bottom.equalToSuperview()
+//            $0.height.equalTo(362)
         }
         searchingBottomV.searchingCloseBlock = {
             [weak self] in
@@ -203,10 +249,13 @@ extension ViewController {
             [weak self] theDevice in
             guard let `self` = self else {return}
             DispatchQueue.main.async {
+                if theDevice.name == "BJ🤣cbYq😝R2R🎱" {
+                    debugPrint("BJ🤣cb -deviDress - \(theDevice)")
+                }
                 self.showContentSearchVC(bluetoothDevice: theDevice)
             }
         }
-        self.searchingBottomV.isHidden = true
+        
         scanCollectionV.searchAgainClickBlock = {
             [weak self] in
             guard let `self` = self else {return}
@@ -231,42 +280,38 @@ extension ViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func searchBtnClick() {
-        if !BSiesBluetoothManager.default.centralManagerStatus {
-            showBluetoothDeniedAlertV()
-            return
-        }
-        
-        
-        scanCollectionV.isHidden = false
-//        searchLaunchPageV.isHidden = true
-        searchingBottomV.isHidden = false
-        
-        BSiesDeviceManager.default.startScan()
-        BSiesDeviceManager.default.deviceScanningBlock = {
-            [weak self] in
-            guard let `self` = self else {return}
-            DispatchQueue.main.async {
-                self.scanCollectionV.updateContentDevice()
-                self.searchingBottomV.updateSearingCountInfoLabel()
-            }
-        }
-    }
+     
    
     func stopScaningAction() {
-        self.searchingBottomV.isHidden = true
-        BSiesDeviceManager.default.stopScan()
+        
+        showSearchingBanner(isShow: false)
+        
+        BSiesBluetoothManager.default.stopScan()
     }
     
     func showContentSearchVC(bluetoothDevice: Device) {
+        if searchingBottomV.isHidden == false {
+            showSearchingBanner(isShow: false)
+        }
+        
         let vc = BSiegDeviceContentVC(bluetoothDevice: bluetoothDevice)
         vc.fatherVC = self
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func searchAgainAction() {
-        self.searchingBottomV.isHidden = false
-        BSiesDeviceManager.default.startScan()
+        
+        showSearchingBanner(isShow: true)
+        
+        if BSiesBluetoothManager.default.centralManagerStatus == nil {
+            showBluetoothDeniedAlertV()
+        } else if BSiesBluetoothManager.default.centralManagerStatus == true {
+            BSiesBluetoothManager.default.startScan(deviceUUId: nil)
+        } else {
+            showBluetoothDeniedAlertV()
+        }
+        
+        
     }
     
     func showBluetoothDeniedAlertV() {

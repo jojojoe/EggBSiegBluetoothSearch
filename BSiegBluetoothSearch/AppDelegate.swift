@@ -9,10 +9,10 @@ import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-//    1:不出现，但是回到之前的地方在搜索时，就自动回到收藏里；
+//    com.xx.888888
+//    com.superegg.okeydokey
 //    2:地图上加箭头 根据信号强弱旋转方向
-//    3:点 I found it 按钮，就直接回到首页；
+
 //    4:状态栏颜色
     
 //    进入设备搜索内容面的时候 要打开蓝牙搜索 出来的时候再关掉
@@ -35,6 +35,7 @@ for fy in UIFont.familyNames {
 }
         
 #endif
+        
         
         return true
     }

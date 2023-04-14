@@ -24,6 +24,9 @@
 		EB73F84229E3BBB700A32E73 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB73F84129E3BBB700A32E73 /* Observable.swift */; };
 		EB73F84429E3BBCE00A32E73 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB73F84329E3BBCE00A32E73 /* Date+Extension.swift */; };
 		EB73F84629E40C3F00A32E73 /* Poppins.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB73F84529E40C3F00A32E73 /* Poppins.ttf */; };
+		EB8F789A29E9510D00FBA311 /* MKRingProgressLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8F789729E9510D00FBA311 /* MKRingProgressLayer.swift */; };
+		EB8F789B29E9510D00FBA311 /* MKRingProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8F789829E9510D00FBA311 /* MKRingProgressView.swift */; };
+		EB8F789C29E9510D00FBA311 /* MKGradientGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8F789929E9510D00FBA311 /* MKGradientGenerator.swift */; };
 		EBA787DD29DFFF6500B63396 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA787DC29DFFF6500B63396 /* AppDelegate.swift */; };
 		EBA787DF29DFFF6500B63396 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA787DE29DFFF6500B63396 /* SceneDelegate.swift */; };
 		EBA787E129DFFF6500B63396 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA787E029DFFF6500B63396 /* ViewController.swift */; };
@@ -54,6 +57,9 @@
 		EB73F84129E3BBB700A32E73 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		EB73F84329E3BBCE00A32E73 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		EB73F84529E40C3F00A32E73 /* Poppins.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Poppins.ttf; sourceTree = "<group>"; };
+		EB8F789729E9510D00FBA311 /* MKRingProgressLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKRingProgressLayer.swift; sourceTree = "<group>"; };
+		EB8F789829E9510D00FBA311 /* MKRingProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKRingProgressView.swift; sourceTree = "<group>"; };
+		EB8F789929E9510D00FBA311 /* MKGradientGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKGradientGenerator.swift; sourceTree = "<group>"; };
 		EBA787D929DFFF6500B63396 /* BSiegBluetoothSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BSiegBluetoothSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBA787DC29DFFF6500B63396 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EBA787DE29DFFF6500B63396 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -113,8 +119,19 @@
 			children = (
 				EB73F84129E3BBB700A32E73 /* Observable.swift */,
 				EB73F84329E3BBCE00A32E73 /* Date+Extension.swift */,
+				EB8F789629E9510000FBA311 /* MKRingProgressView */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		EB8F789629E9510000FBA311 /* MKRingProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				EB8F789929E9510D00FBA311 /* MKGradientGenerator.swift */,
+				EB8F789729E9510D00FBA311 /* MKRingProgressLayer.swift */,
+				EB8F789829E9510D00FBA311 /* MKRingProgressView.swift */,
+			);
+			path = MKRingProgressView;
 			sourceTree = "<group>";
 		};
 		EBA787D029DFFF6500B63396 = {
@@ -147,10 +164,10 @@
 				D80D359129E1860B00F6B307 /* BSiegDeSubscVC.swift */,
 				D80D359329E1863500F6B307 /* BSiegDeSplasecVC.swift */,
 				D80D359529E2607300F6B307 /* BSiegSubscribeManager.swift */,
+				EBA787F229E0139500B63396 /* Views */,
 				EB73F84029E3BBA600A32E73 /* Utils */,
 				EB73F83529E3BA8700A32E73 /* DataManager */,
 				EB73F82829E3B43400A32E73 /* BluetoothManager */,
-				EBA787F229E0139500B63396 /* Views */,
 				EBA787E229DFFF6500B63396 /* Main.storyboard */,
 				EBA787E529DFFF6800B63396 /* Assets.xcassets */,
 				EBA787E729DFFF6800B63396 /* LaunchScreen.storyboard */,
@@ -300,6 +317,7 @@
 				EB73F84229E3BBB700A32E73 /* Observable.swift in Sources */,
 				EBA787E129DFFF6500B63396 /* ViewController.swift in Sources */,
 				EB73F83729E3BABD00A32E73 /* DeviceRepository.swift in Sources */,
+				EB8F789C29E9510D00FBA311 /* MKGradientGenerator.swift in Sources */,
 				EB73F83D29E3BB4D00A32E73 /* BluetoothScanner.xcdatamodeld in Sources */,
 				D80D359229E1860B00F6B307 /* BSiegDeSubscVC.swift in Sources */,
 				EB73F84429E3BBCE00A32E73 /* Date+Extension.swift in Sources */,
@@ -310,9 +328,11 @@
 				EBA787DF29DFFF6500B63396 /* SceneDelegate.swift in Sources */,
 				EBA787F629E01B9800B63396 /* PZSwipedCollectionViewCell.swift in Sources */,
 				EBA787F429E013F000B63396 /* BSiegBlueDeviceCollectionView.swift in Sources */,
+				EB8F789B29E9510D00FBA311 /* MKRingProgressView.swift in Sources */,
 				D80D359029E185FA00F6B307 /* BSiegDeSettingVC.swift in Sources */,
 				D80D358C29E152B300F6B307 /* BSiegDeviceContentVC.swift in Sources */,
 				D80D359629E2607300F6B307 /* BSiegSubscribeManager.swift in Sources */,
+				EB8F789A29E9510D00FBA311 /* MKRingProgressLayer.swift in Sources */,
 				D80D358A29E138F600F6B307 /* BSiegSearchingBottomV.swift in Sources */,
 				D80D358E29E1811300F6B307 /* BSiegDeviceMapPositionVC.swift in Sources */,
 				EB73F83429E3B91300A32E73 /* BSiegLocationManager.swift in Sources */,
@@ -463,9 +483,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 97Y24FFSPP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BSiegBluetoothSearch/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = BlueSearch;
@@ -477,6 +497,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -485,7 +506,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.superegg.okeydokey;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xx.888888;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -517,6 +538,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
