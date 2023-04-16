@@ -13,6 +13,7 @@ target 'BSiegBluetoothSearch' do
   pod 'TPInAppReceipt'
   pod 'KRProgressHUD'
   pod 'DeviceKit'
+  pod 'SwiftyTimer'
   pod 'LookinServer', :configurations => ['Debug']
   
 end

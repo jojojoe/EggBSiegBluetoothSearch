@@ -56,12 +56,7 @@ class BSiesBluetoothManager: NSObject {
         DispatchQueue.global().async {
             [weak self] in
             guard let `self` = self else {return}
-            self.centralManager.scanForPeripherals(withServices: nil)
-//            if let uuidstr = deviceUUId {
-//                self.centralManager.scanForPeripherals(withServices: [CBUUID(nsuuid: uuidstr)])
-//            } else {
-//                self.centralManager.scanForPeripherals(withServices: nil)
-//            }
+            self.centralManager.scanForPeripherals(withServices: nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey : true])
 
         }
     }
@@ -140,7 +135,8 @@ extension BSiesBluetoothManager: CBCentralManagerDelegate {
             debugPrint("central.state is .poweredOn")
             self.centralManagerStatus = true
             self.isStartScaning = true
-            self.centralManager.scanForPeripherals(withServices: nil)
+            
+            self.centralManager.scanForPeripherals(withServices: nil, options: [CBCentralManagerScanOptionAllowDuplicatesKey : true])
         @unknown default:
             
             debugPrint("central.state is .@unknown default")
@@ -162,7 +158,7 @@ extension BSiesBluetoothManager: CBCentralManagerDelegate {
         if let txPower = self.txPower {
             debugPrint("Distance is ", pow(10, ((txPower - Double(truncating: RSSI))/20)))
         }
-        
+        debugPrint("peripheral.name - \(peripheral.name)")
         if let name = peripheral.name {
             
             if let servis = peripheral.services, servis.count >= 1 {

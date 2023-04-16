@@ -56,6 +56,7 @@ class BSiegSearchingBottomV: UIView {
     func setupView() {
         //
         let bgBtn = UIButton()
+        bgBtn.backgroundColor = UIColor.black.withAlphaComponent(0.25)
         addSubview(bgBtn)
         bgBtn.snp.makeConstraints {
             $0.left.right.top.bottom.equalToSuperview()
@@ -138,7 +139,7 @@ class BSiegSearchingBottomV: UIView {
     
     func updateSearingCountInfoLabel() {
         
-        searingCountInfoLabel.text = "\(BSiesDeviceManager.default.scannedDevices.count) nearby devices found"
+        searingCountInfoLabel.text = "\(BSiesBabyBlueManager.default.peripheralItemList.count) nearby devices found"
     }
     
     

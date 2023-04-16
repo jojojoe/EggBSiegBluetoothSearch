@@ -15,6 +15,10 @@ class BSiegDeSettingVC: UIViewController {
         setupViews()
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
+    
     func setupViews() {
         view.clipsToBounds = true
         //

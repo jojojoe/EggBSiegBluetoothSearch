@@ -6,28 +6,69 @@
 //
 
 import UIKit
+import SwifterSwift
 
 class BSiegBlueDeviceCollectionView: UIView {
 
     var collection: UICollectionView!
-    var myDevices: [Device] = []
-    var otherDevices: [Device] = []
-    var itemclickBlock: ((Device)->Void)?
+//    var myDevices: [PeripheralItem] = []
+//    var otherDevices: [PeripheralItem] = []
+    var itemclickBlock: ((PeripheralItem)->Void)?
     var searchAgainClickBlock: (()->Void)?
+    var refreshWating: Bool = false
+    
+    var allDevicePreviewView: [BSiegBlueDevicePreview] = []
+    var myDevicePreviewView: [BSiegBlueDevicePreview] = []
+    var otherDevicePreviewView: [BSiegBlueDevicePreview] = []
+    
+    let cellSize: CGSize = CGSize(width: UIScreen.main.bounds.width - 24 * 2, height: 78)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         setupView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+  
     
     func updateContentDevice() {
-        myDevices = BSiesDeviceManager.default.currentMyDevices
-        otherDevices = BSiesDeviceManager.default.otherTrackedDevices
-        collection.reloadData()
+        if !refreshWating {
+            refreshWating = true
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                [weak self] in
+                guard let `self` = self else {return}
+                self.refreshWating = false
+            }
+            
+            myDevicePreviewView = []
+            otherDevicePreviewView = []
+            
+            BSiesBabyBlueManager.default.peripheralItemList.forEach { item in
+                var currenPreview: BSiegBlueDevicePreview!
+                if let pv = allDevicePreviewView.first(where: { prev in
+                    prev.peripheralItem == item
+                }) {
+                    currenPreview = pv
+                } else {
+                    let v = BSiegBlueDevicePreview(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: cellSize), peripheralItem: item)
+                    currenPreview = v
+                }
+                currenPreview.updateContent()
+                
+                if BSiesBabyBlueManager.default.favoriteDevicesIdList.contains(item.identifier) {
+                    myDevicePreviewView.append(currenPreview)
+                } else {
+                    otherDevicePreviewView.append(currenPreview)
+                }
+            }
+            
+            allDevicePreviewView = myDevicePreviewView + otherDevicePreviewView
+            collection.reloadData()
+        }
+        
     }
 
 }
@@ -100,82 +141,73 @@ extension BSiegBlueDeviceCollectionView: UICollectionViewDataSource {
      
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withClass: BSiegBlueDevicePreviewCell.self, for: indexPath)
-        var deviceNameStr = ""
-        var describeStr = ""
-        var deviceIconStr = ""
-
-        var devi: Device?
+         
+        var preview: BSiegBlueDevicePreview!
         
-        if myDevices.count == 0 && otherDevices.count == 0 {
+        if myDevicePreviewView.count == 0 && otherDevicePreviewView.count == 0 {
             
-        } else if myDevices.count == 0 && otherDevices.count != 0 {
-            devi = otherDevices[indexPath.item]
-        } else if myDevices.count != 0 && otherDevices.count == 0 {
-            devi = myDevices[indexPath.item]
+        } else if myDevicePreviewView.count == 0 && otherDevicePreviewView.count != 0 {
+            preview = otherDevicePreviewView[indexPath.item]
+        } else if myDevicePreviewView.count != 0 && otherDevicePreviewView.count == 0 {
+            preview = myDevicePreviewView[indexPath.item]
         } else {
             if indexPath.section == 0 {
-                devi = myDevices[indexPath.item]
+                preview = myDevicePreviewView[indexPath.item]
                 cell.favoButton.isSelected = true
             } else {
-                devi = otherDevices[indexPath.item]
+                preview = otherDevicePreviewView[indexPath.item]
                 cell.favoButton.isSelected = false
             }
 
         }
+        cell.contentBgV.removeSubviews()
         
-        deviceIconStr = devi?.deviceTagIconName(isSmall: true) ?? ""
-        deviceNameStr = devi?.name ?? ""
-        cell.ring1V.progress = devi?.deviceDistancePercent() ?? 0
-        cell.contentImgV.image = UIImage(named: deviceIconStr)
-        cell.deviceNameLabel.text = deviceNameStr
+        cell.contentBgV.addSubview(preview)
+        cell.contentPreview = preview
         
-        let distanceStr = devi?.fetchDistanceString() ?? ""
-        if distanceStr.contains("Cannot") {
-            describeStr = distanceStr
-        } else {
-            describeStr = "Approx. \(describeStr) away from you"
-        }
-        cell.describeLabel.text = describeStr
         
         cell.favoClickBlock = {
-            [weak self] in
+            [weak self] favoStatus, deviceid in
             guard let `self` = self else {return}
             DispatchQueue.main.async {
-                
+                if deviceid.count >= 1 {
+                    if favoStatus {
+                        BSiesBabyBlueManager.default.addUserFavorite(deviceId: deviceid)
+                    } else {
+                        BSiesBabyBlueManager.default.removeUserFavorite(deviceId: deviceid)
+                    }
+                    self.updateContentDevice()
+                }
             }
         }
-         
-        
-        
-        
         
         return cell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if myDevices.count == 0 && otherDevices.count == 0 {
+        if myDevicePreviewView.count == 0 && otherDevicePreviewView.count == 0 {
             return 0
-        } else if myDevices.count == 0 && otherDevices.count != 0 {
-            return otherDevices.count
-        } else if myDevices.count != 0 && otherDevices.count == 0 {
-            return myDevices.count
+        } else if myDevicePreviewView.count == 0 && otherDevicePreviewView.count != 0 {
+            return otherDevicePreviewView.count
+        } else if myDevicePreviewView.count != 0 && otherDevicePreviewView.count == 0 {
+            return myDevicePreviewView.count
         } else {
             if section == 0 {
-                return myDevices.count
+                return myDevicePreviewView.count
             } else {
-                return otherDevices.count
+                return otherDevicePreviewView.count
             }
         }
         return 0
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if myDevices.count == 0 && otherDevices.count == 0 {
+        if myDevicePreviewView.count == 0 && otherDevicePreviewView.count == 0 {
             return 0
-        } else if myDevices.count == 0 && otherDevices.count != 0 {
+        } else if myDevicePreviewView.count == 0 && otherDevicePreviewView.count != 0 {
             return 1
-        } else if myDevices.count != 0 && otherDevices.count == 0 {
+        } else if myDevicePreviewView.count != 0 && otherDevicePreviewView.count == 0 {
             return 1
         } else {
             return 2
@@ -187,16 +219,17 @@ extension BSiegBlueDeviceCollectionView: UICollectionViewDataSource {
 
 extension BSiegBlueDeviceCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width - 24 * 2, height: 78)
+        
+        return cellSize
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         let bottomOffset: CGFloat = 160
-        if myDevices.count == 0 && otherDevices.count == 0 {
+        if myDevicePreviewView.count == 0 && otherDevicePreviewView.count == 0 {
             return UIEdgeInsets(top: 10, left: 24, bottom: bottomOffset, right: 24)
-        } else if myDevices.count == 0 && otherDevices.count != 0 {
+        } else if myDevicePreviewView.count == 0 && otherDevicePreviewView.count != 0 {
             return UIEdgeInsets(top: 10, left: 24, bottom: bottomOffset, right: 24)
-        } else if myDevices.count != 0 && otherDevices.count == 0 {
+        } else if myDevicePreviewView.count != 0 && otherDevicePreviewView.count == 0 {
             return UIEdgeInsets(top: 10, left: 24, bottom: bottomOffset, right: 24)
         } else {
             if section == 0 {
@@ -219,11 +252,11 @@ extension BSiegBlueDeviceCollectionView: UICollectionViewDelegateFlowLayout {
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if myDevices.count == 0 && otherDevices.count == 0 {
+        if myDevicePreviewView.count == 0 && otherDevicePreviewView.count == 0 {
             return CGSize(width: 0, height: 0)
-        } else if myDevices.count == 0 && otherDevices.count != 0 {
+        } else if myDevicePreviewView.count == 0 && otherDevicePreviewView.count != 0 {
             return CGSize(width: 0, height: 0)
-        } else if myDevices.count != 0 && otherDevices.count == 0 {
+        } else if myDevicePreviewView.count != 0 && otherDevicePreviewView.count == 0 {
             return CGSize(width: 0, height: 0)
         } else {
             return CGSize(width: UIScreen.main.bounds.size.width, height: 64)
@@ -236,11 +269,11 @@ extension BSiegBlueDeviceCollectionView: UICollectionViewDelegateFlowLayout {
         if kind == UICollectionView.elementKindSectionHeader {
             
             let view = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withClass: BSiegBlueHeader.self, for: indexPath)
-            if myDevices.count == 0 && otherDevices.count == 0 {
+            if myDevicePreviewView.count == 0 && otherDevicePreviewView.count == 0 {
 
-            } else if myDevices.count == 0 && otherDevices.count != 0 {
+            } else if myDevicePreviewView.count == 0 && otherDevicePreviewView.count != 0 {
                 
-            } else if myDevices.count != 0 && otherDevices.count == 0 {
+            } else if myDevicePreviewView.count != 0 && otherDevicePreviewView.count == 0 {
                 
             } else {
                 if indexPath.section == 0 {
@@ -259,37 +292,22 @@ extension BSiegBlueDeviceCollectionView: UICollectionViewDelegateFlowLayout {
 extension BSiegBlueDeviceCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if myDevices.count == 0 && otherDevices.count == 0 {
+        var previewView: BSiegBlueDevicePreview!
+        
+        if myDevicePreviewView.count == 0 && otherDevicePreviewView.count == 0 {
             
-        } else if myDevices.count == 0 && otherDevices.count != 0 {
-            let devi = otherDevices[indexPath.item]
-            if devi.name == "BJ🤣cbYq😝R2R🎱" {
-                debugPrint("BJ🤣cb -deviDress - \(devi)")
-            }
-            itemclickBlock?(devi)
-        } else if myDevices.count != 0 && otherDevices.count == 0 {
-            let devi = myDevices[indexPath.item]
-            if devi.name == "BJ🤣cbYq😝R2R🎱" {
-                debugPrint("BJ🤣cb -deviDress - \(devi)")
-            }
-            itemclickBlock?(devi)
+        } else if myDevicePreviewView.count == 0 && otherDevicePreviewView.count != 0 {
+            previewView = otherDevicePreviewView[indexPath.item]
+        } else if myDevicePreviewView.count != 0 && otherDevicePreviewView.count == 0 {
+            previewView = myDevicePreviewView[indexPath.item]
         } else {
             if indexPath.section == 0 {
-                let devi = myDevices[indexPath.item]
-                if devi.name == "BJ🤣cbYq😝R2R🎱" {
-                    debugPrint("BJ🤣cb -deviDress - \(devi)")
-                }
-                itemclickBlock?(devi)
+                previewView = myDevicePreviewView[indexPath.item]
             } else {
-                let devi = otherDevices[indexPath.item]
-                if devi.name == "BJ🤣cbYq😝R2R🎱" {
-                    debugPrint("BJ🤣cb -deviDress - \(devi)")
-                }
-                itemclickBlock?(devi)
+                previewView = otherDevicePreviewView[indexPath.item]
             }
-
         }
-        
+        itemclickBlock?(previewView.peripheralItem)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -327,23 +345,27 @@ class BSiegBlueHeader: UICollectionReusableView {
     
 }
 
-class BSiegBlueDevicePreviewCell: PZSwipedCollectionViewCell {
+class BSiegBlueDevicePreview: UIView {
+    var peripheralItem: PeripheralItem
+     
     let contentImgV = UIImageView()
     let deviceNameLabel = UILabel()
     let describeLabel = UILabel()
-    var favoButton: UIButton!
-    var favoClickBlock: (()->Void)?
+    
     var ring1V = RingProgressView()
     
-    
-    override init(frame: CGRect) {
+    init(frame: CGRect, peripheralItem: PeripheralItem) {
+        self.peripheralItem = peripheralItem
+       
         super.init(frame: frame)
         setupView()
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     func setupView() {
         self.backgroundColor = .white
@@ -362,7 +384,7 @@ class BSiegBlueDevicePreviewCell: PZSwipedCollectionViewCell {
         //
         contentImgV.contentMode = .scaleAspectFit
         contentImgV.clipsToBounds = true
-        contentView.addSubview(contentImgV)
+        addSubview(contentImgV)
         contentImgV.snp.makeConstraints {
             $0.center.equalTo(iconbgV)
             $0.width.height.equalTo(32)
@@ -410,25 +432,69 @@ class BSiegBlueDevicePreviewCell: PZSwipedCollectionViewCell {
         arrowImgV.contentMode = .scaleAspectFit
         arrowImgV.image = UIImage(named: "CaretRight")
         arrowImgV.clipsToBounds = true
-        contentView.addSubview(arrowImgV)
+        addSubview(arrowImgV)
         arrowImgV.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.right.equalToSuperview().offset(-14)
             $0.width.height.equalTo(20)
         }
+         
+        //
+        
+    }
+     
+    func updateContent() {
+        
+        let deviceIconStr = peripheralItem.deviceTagIconName(isSmall: true)
+        let deviceNameStr = peripheralItem.deviceName
+        let distancePercent = peripheralItem.deviceDistancePercent()
+        debugPrint("cell update deviceName: \(deviceNameStr) distancePercent - \(distancePercent)")
+        contentImgV.image = UIImage(named: deviceIconStr)
+        deviceNameLabel.text = deviceNameStr
+        ring1V.progress = distancePercent
+        describeLabel.text = peripheralItem.fetchDistanceString()
+    }
+}
+
+class BSiegBlueDevicePreviewCell: PZSwipedCollectionViewCell {
+    var contentBgV = UIView()
+    var contentPreview: BSiegBlueDevicePreview!
+    var favoButton: UIButton!
+    var favoClickBlock: ((Bool, String)->Void)?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupView()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupView() {
+        self.backgroundColor = .white
+        self.layer.cornerRadius = 20
+        //
+        
+        contentView.addSubview(contentBgV)
+        contentBgV.snp.makeConstraints {
+            $0.left.right.top.bottom.equalToSuperview()
+        }
+      
         //
         favoButton = UIButton(frame: CGRect(x: 0, y: 0, width: 90, height: self.bounds.height))
         favoButton.layer.cornerRadius = 20
         favoButton.setBackgroundImage(UIImage(named: "cell_heart_n"), for: .normal)
         favoButton.setBackgroundImage(UIImage(named: "cell_heart_s"), for: .selected)
         favoButton.roundCorners([.topRight, .bottomRight], radius: 20)
-        favoButton.addTarget(self, action: #selector(favoButtonSelf), for: .touchUpInside)
+        favoButton.addTarget(self, action: #selector(favoButtonSelf(sender: )), for: .touchUpInside)
         self.revealView = favoButton
     }
     
-    @objc func favoButtonSelf() {
+    @objc func favoButtonSelf(sender: UIButton) {
+        sender.isSelected = !sender.isSelected
         self.hideRevealView(withAnimated: true)
-        favoClickBlock?()
+        favoClickBlock?(sender.isSelected, contentPreview.peripheralItem.identifier)
     }
     
 }

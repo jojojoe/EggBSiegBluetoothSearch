@@ -18,6 +18,10 @@ class BSiegDeSplasecVC: UIViewController {
         setupV()
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
+    
     func setupV() {
         view.backgroundColor = .white
         view.clipsToBounds = true

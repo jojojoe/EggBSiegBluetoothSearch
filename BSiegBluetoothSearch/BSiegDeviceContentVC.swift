@@ -17,13 +17,22 @@ class BSiegDeviceContentVC: UIViewController {
     let voiceBtn = BSiegToolBtn()
     let centerV = UIView()
     let contentImgV = UIImageView()
-    var bluetoothDevice: Device
+    var bluetoothDevice: PeripheralItem
     let didlayoutOnce: Once = Once()
     let distancePersentLabel = UILabel()
     var ring1V = RingProgressView()
     
-    init(bluetoothDevice: Device) {
+    let testinfoLabel = UILabel()
+    
+    var refreshWating: Bool = false
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
+    
+    init(bluetoothDevice: PeripheralItem) {
         self.bluetoothDevice = bluetoothDevice
+        BSiesBabyBlueManager.default.currentTrackingItem = bluetoothDevice
         super.init(nibName: nil, bundle: nil)
         
     }
@@ -38,26 +47,54 @@ class BSiegDeviceContentVC: UIViewController {
         setupV()
         updateFavoriteStatus()
         
-        if !BSiesBluetoothManager.default.isStartScaning {
-            BSiesBluetoothManager.default.startScan(deviceUUId: bluetoothDevice.id)
+        if !BSiesBabyBlueManager.default.centralManager.isScanning {
+            BSiesBabyBlueManager.default.startScan()
         }
         
-        BSiesDeviceManager.default.deviceScanningBlock = {
-            [weak self] in
-            guard let `self` = self else {return}
-            DispatchQueue.main.async {
-                self.updatePositionPersent()
-            }
-        }
+     
         
     }
     
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        addNoti()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        removeNoti()
+    }
+    
+    deinit {
+        removeNoti()
+    }
+    
     func updatePositionPersent() {
-        if bluetoothDevice.name == "BJ🤣cbYq😝R2R🎱" {
-            debugPrint("BJ🤣cb -deviDress - \(bluetoothDevice)")
+        
+        if !refreshWating {
+            refreshWating = true
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                [weak self] in
+                guard let `self` = self else {return}
+                self.refreshWating = false
+            }
+            
+            //
+            let progress = bluetoothDevice.deviceDistancePercent()
+            let percentStr = bluetoothDevice.deviceDistancePercentStr()
+            ring1V.progress = progress
+            distancePersentLabel.text = percentStr
+            testinfoLabel.adjustsFontSizeToFitWidth = true
+            testinfoLabel.text = ""//"\(BSiesBabyBlueManager.default.currentTrackingItemRssi ?? 99999) -- \(progress) -- \(bluetoothDevice.rssi)"
+            
+            debugPrint("update ring1V.progress: \(progress) distancePersentLabel - \(percentStr)")
+            debugPrint("currentTrackingItemRssi \(BSiesBabyBlueManager.default.currentTrackingItemRssi) currentTrackingItemName - \(BSiesBabyBlueManager.default.currentTrackingItemName)")
         }
-        ring1V.progress = bluetoothDevice.deviceDistancePercent()
-        distancePersentLabel.text = bluetoothDevice.deviceDistancePercentStr()
+        
+        
+        
+        
     }
     
     
@@ -72,44 +109,48 @@ class BSiegDeviceContentVC: UIViewController {
     }
     
     func updateFavoriteStatus() {
-        if bluetoothDevice.isTracking {
+        if BSiesBabyBlueManager.default.favoriteDevicesIdList.contains(bluetoothDevice.identifier) {
             favoriteBtn.isSelected = true
             favoriteBtn.iconImgV.image = UIImage(named: "icon_heart_s")
         } else {
             favoriteBtn.isSelected = false
             favoriteBtn.iconImgV.image = UIImage(named: "icon_heart")
         }
+        
     }
 
 }
 
 extension BSiegDeviceContentVC {
+    
+    func addNoti() {
+        NotificationCenter.default.addObserver(self, selector:#selector(discoverDeviceUpdate(notification:)) , name: BSiesBabyBlueManager.default.trackingDeviceNotiName, object: nil)
+        
+    }
+    
+    func removeNoti() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func discoverDeviceUpdate(notification: Notification) {
+        DispatchQueue.main.async {
+            [weak self] in
+            guard let `self` = self else {return}
+            self.updatePositionPersent()
+        }
+    }
+    
+    
+}
+
+extension BSiegDeviceContentVC {
     func trackStatusChange(isTracking: Bool) {
         if isTracking {
-            bluetoothDevice.startTracking {[weak self] error in
-                guard let `self` = self else {return}
-                guard error == nil else { return }
-                DispatchQueue.main.async {
-                    [weak self] in
-                    guard let `self` = self else {return}
-                    self.updateFavoriteStatus()
-                    BSiesDeviceManager.default.didUpdateDevices()
-                    self.fatherVC.scanCollectionV.updateContentDevice()
-                }
-            }
+            BSiesBabyBlueManager.default.addUserFavorite(deviceId: bluetoothDevice.identifier)
         } else {
-            bluetoothDevice.stopTracking {[weak self] error in
-                guard let `self` = self else {return}
-                guard error == nil else { return }
-                DispatchQueue.main.async {
-                    [weak self] in
-                    guard let `self` = self else {return}
-                    self.updateFavoriteStatus()
-                    BSiesDeviceManager.default.didUpdateDevices()
-                    self.fatherVC.scanCollectionV.updateContentDevice()
-                }
-            }
+            BSiesBabyBlueManager.default.removeUserFavorite(deviceId: bluetoothDevice.identifier)
         }
+        updateFavoriteStatus()
     }
 }
 
@@ -145,10 +186,25 @@ extension BSiegDeviceContentVC {
             $0.height.greaterThanOrEqualTo(17)
         }
         tiNameLabel.lineBreakMode = .byTruncatingTail
-        tiNameLabel.text = bluetoothDevice.name
+        tiNameLabel.text = bluetoothDevice.deviceName
         tiNameLabel.textAlignment = .center
         tiNameLabel.textColor = UIColor(hexString: "#242766")
         tiNameLabel.font = UIFont(name: "Poppins-Bold", size: 24)
+        
+        
+        view.addSubview(testinfoLabel)
+        testinfoLabel.snp.makeConstraints {
+            $0.left.equalTo(backB.snp.right).offset(20)
+            $0.top.equalTo(tiNameLabel.snp.bottom).offset(0)
+            $0.centerX.equalToSuperview()
+            $0.height.greaterThanOrEqualTo(17)
+        }
+        testinfoLabel.lineBreakMode = .byTruncatingTail
+        testinfoLabel.text = ""
+        testinfoLabel.textAlignment = .center
+        testinfoLabel.textColor = UIColor(hexString: "#242766")
+        testinfoLabel.font = UIFont(name: "Poppins", size: 24)
+        
         
         //
         let founditBtn = UIButton()
@@ -303,7 +359,7 @@ extension BSiegDeviceContentVC {
     
     @objc func backBClick(sender: UIButton) {
         
-        BSiesBluetoothManager.default.stopScan()
+        BSiesBabyBlueManager.default.stopScan()
         
         if self.navigationController != nil {
             self.navigationController?.popViewController()
@@ -323,10 +379,14 @@ extension BSiegDeviceContentVC {
             sender.backgroundColor = UIColor(hexString: "#FF961B")
             sender.iconImgV.image = UIImage(named: "icon_vibrate_s")
             sender.nameL.textColor = UIColor(hexString: "#FFFFFF")
+            
+            BSiesAudioVibManager.default.playFeedVib()
         } else {
             sender.backgroundColor = UIColor(hexString: "#FFFFFF")
             sender.iconImgV.image = UIImage(named: "icon_vibrate")
             sender.nameL.textColor = UIColor(hexString: "#242766")
+            
+            BSiesAudioVibManager.default.stopFeedVib()
         }
         
     }
@@ -354,10 +414,12 @@ extension BSiegDeviceContentVC {
             sender.backgroundColor = UIColor(hexString: "#3971FF")
             sender.iconImgV.image = UIImage(named: "icon_voice_s")
             sender.nameL.textColor = UIColor(hexString: "#FFFFFF")
+            BSiesAudioVibManager.default.playAudio()
         } else {
             sender.backgroundColor = UIColor(hexString: "#FFFFFF")
             sender.iconImgV.image = UIImage(named: "icon_voice")
             sender.nameL.textColor = UIColor(hexString: "#242766")
+            BSiesAudioVibManager.default.stopAudio()
         }
     }
     

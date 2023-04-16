@@ -47,6 +47,9 @@ class BSiegDeSubscVC: UIViewController {
         setupV()
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
