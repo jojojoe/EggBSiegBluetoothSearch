@@ -150,6 +150,8 @@ extension BSiegBlueDeviceCollectionView: UICollectionViewDataSource {
             preview = otherDevicePreviewView[indexPath.item]
         } else if myDevicePreviewView.count != 0 && otherDevicePreviewView.count == 0 {
             preview = myDevicePreviewView[indexPath.item]
+            cell.favoButton.isSelected = true
+            
         } else {
             if indexPath.section == 0 {
                 preview = myDevicePreviewView[indexPath.item]
@@ -176,7 +178,12 @@ extension BSiegBlueDeviceCollectionView: UICollectionViewDataSource {
                     } else {
                         BSiesBabyBlueManager.default.removeUserFavorite(deviceId: deviceid)
                     }
-                    self.updateContentDevice()
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
+                        [weak self] in
+                        guard let `self` = self else {return}
+                        self.updateContentDevice()
+                    }
+                    
                 }
             }
         }
@@ -257,7 +264,12 @@ extension BSiegBlueDeviceCollectionView: UICollectionViewDelegateFlowLayout {
         } else if myDevicePreviewView.count == 0 && otherDevicePreviewView.count != 0 {
             return CGSize(width: 0, height: 0)
         } else if myDevicePreviewView.count != 0 && otherDevicePreviewView.count == 0 {
-            return CGSize(width: 0, height: 0)
+            if section == 0 {
+                return CGSize(width: UIScreen.main.bounds.size.width, height: 64)
+            } else {
+                return CGSize(width: 0, height: 0)
+            }
+            
         } else {
             return CGSize(width: UIScreen.main.bounds.size.width, height: 64)
         }
@@ -274,7 +286,9 @@ extension BSiegBlueDeviceCollectionView: UICollectionViewDelegateFlowLayout {
             } else if myDevicePreviewView.count == 0 && otherDevicePreviewView.count != 0 {
                 
             } else if myDevicePreviewView.count != 0 && otherDevicePreviewView.count == 0 {
-                
+                if indexPath.section == 0 {
+                    view.tiNameLabel.text = "My Devices"
+                }
             } else {
                 if indexPath.section == 0 {
                     view.tiNameLabel.text = "My Devices"

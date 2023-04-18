@@ -35,7 +35,7 @@ class BSiegDeviceMapPositionVC: UIViewController {
     var currentCachaRssi: Double = 0
     
     var refreshWating: Bool = false
-    
+    var currentHeadi: Float = 0
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .darkContent
@@ -85,7 +85,7 @@ class BSiegDeviceMapPositionVC: UIViewController {
         }
         //
         let degreeWidth: CGFloat = 240
-        mapDegree = BSiegMapDegreeScaleV(frame: CGRect(x: 0, y: (UIScreen.main.bounds.size.height - UIScreen.main.bounds.size.width) / 2, width: degreeWidth, height: degreeWidth))
+        mapDegree = BSiegMapDegreeScaleV(frame: CGRect(x: (UIScreen.main.bounds.size.width - degreeWidth)/2, y: (UIScreen.main.bounds.size.height - UIScreen.main.bounds.size.width) / 2, width: degreeWidth, height: degreeWidth))
         view.addSubview(mapDegree)
         mapDegree.isUserInteractionEnabled = false
         mapDegree.backgroundColor = .clear
@@ -301,7 +301,7 @@ extension BSiegDeviceMapPositionVC: CLLocationManagerDelegate {
         if (location.horizontalAccuracy > 0) {
             debugPrint("纬度=\(location.coordinate.latitude)  ;经度=\(location.coordinate.longitude)")
             
-            mapView.setCenter(location.coordinate, animated: true)
+//            mapView.setCenter(location.coordinate, animated: true)
             
             let geoCoder = CLGeocoder()
             
@@ -322,7 +322,34 @@ extension BSiegDeviceMapPositionVC: CLLocationManagerDelegate {
                     }
                 }
             }
-            locationManager.stopUpdatingLocation()
+            
+            if !refreshWating {
+                refreshWating = true
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+                    [weak self] in
+                    guard let `self` = self else {return}
+                    self.refreshWating = false
+                }
+                   if let currentRssi = BSiesBabyBlueManager.default.currentTrackingItemRssi {
+                    if currentRssi > currentCachaRssi {
+
+                    } else {
+                        currentCachaRssi = currentRssi
+                        nextPostion()
+                        mapDegree.resetDirection(CGFloat(currentHeadi) + currentOffsetRotate)
+
+//                        let headingstring = "headi=\(CGFloat(headi))\n\("偏转\(Int(magneticHeading))") - \(currentOffsetRotate)"
+//                        debugPrint(headingstring)
+                    }
+
+
+//                    infoDevNameLabel.text = headingstring
+//                    infoDevNameLabel.font = UIFont.systemFont(ofSize: 10)
+//                    infoDevNameLabel.numberOfLines = 2
+                }
+            }
+            
+//            locationManager.stopUpdatingLocation()
         }
     }
     
@@ -351,29 +378,36 @@ extension BSiegDeviceMapPositionVC: CLLocationManagerDelegate {
             
             
             // 3.旋转变换
-            let headingstring = "headi=\(CGFloat(headi)) \("偏转\(Int(magneticHeading))")"
-            debugPrint()
-            infoDevNameLabel.text = headingstring
-            infoDevNameLabel.font = UIFont.systemFont(ofSize: 10)
+            
             // 4.当前手机（摄像头)朝向方向
             update(newHeading)
             
             //
             if !refreshWating {
                 refreshWating = true
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
                     [weak self] in
                     guard let `self` = self else {return}
                     self.refreshWating = false
                 }
-                if let currentRssi = BSiesBabyBlueManager.default.currentTrackingItemRssi {
+                   if let currentRssi = BSiesBabyBlueManager.default.currentTrackingItemRssi {
                     if currentRssi > currentCachaRssi {
                         
                     } else {
                         currentCachaRssi = currentRssi
                         nextPostion()
                         mapDegree.resetDirection(CGFloat(headi) + currentOffsetRotate)
+                        currentHeadi = headi
+                        
+                        
+                        let headingstring = "headi=\(CGFloat(headi))\n\("偏转\(Int(magneticHeading))") - \(currentOffsetRotate)"
+                        debugPrint(headingstring)
                     }
+                    
+                    
+//                    infoDevNameLabel.text = headingstring
+//                    infoDevNameLabel.font = UIFont.systemFont(ofSize: 10)
+//                    infoDevNameLabel.numberOfLines = 2
                 }
             }
             

@@ -208,11 +208,11 @@ extension BSiegMapDegreeScaleV {
         
         
         let trianglePath = UIBezierPath()
-        var point = CGPoint(x: 0, y: triwidth)
+        var point = CGPoint(x: 0 + 4, y: triwidth)
         trianglePath.move(to: point)
         point = CGPoint(x: triwidth / 2, y: 0)
         trianglePath.addLine(to: point)
-        point = CGPoint(x: triwidth, y: triwidth)
+        point = CGPoint(x: triwidth - 4, y: triwidth)
         trianglePath.addLine(to: point)
         trianglePath.close()
         let triangleLayer = CAShapeLayer()

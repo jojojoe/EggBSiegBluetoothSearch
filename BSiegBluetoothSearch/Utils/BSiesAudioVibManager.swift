@@ -30,7 +30,8 @@ class BSiesAudioVibManager: NSObject {
         if let item = BSiesBabyBlueManager.default.currentTrackingItem {
             let persent = item.deviceDistancePercent()
             if persent <= 0.3 {
-                return .veryslow
+//                return .veryslow
+                return .slow
             } else if persent <= 0.7 {
                 return .slow
             } else {
@@ -91,9 +92,9 @@ extension BSiesAudioVibManager {
         if let item = BSiesBabyBlueManager.default.currentTrackingItem {
             let persent = item.deviceDistancePercent()
             if persent <= 0.3 {
-                return 4
-            } else if persent <= 0.7 {
                 return 2
+            } else if persent <= 0.7 {
+                return 1
             } else {
                 return 0.3
             }

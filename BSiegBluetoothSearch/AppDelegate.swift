@@ -11,19 +11,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 //    com.xx.888888
 //    com.superegg.okeydokey
-//    2:地图上加箭头 根据信号强弱旋转方向
-
-//    4:状态栏颜色
-    
-//    进入设备搜索内容面的时候 要打开蓝牙搜索 出来的时候再关掉
-//
-//    扫描动画
-//
-//    震动 声音播放功能
-//
-//    订阅逻辑
-//
-//    引导页面
+//    com.find.cellphones
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 #if DEBUG

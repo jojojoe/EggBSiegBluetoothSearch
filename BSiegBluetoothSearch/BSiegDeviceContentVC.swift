@@ -90,6 +90,18 @@ class BSiegDeviceContentVC: UIViewController {
             
             debugPrint("update ring1V.progress: \(progress) distancePersentLabel - \(percentStr)")
             debugPrint("currentTrackingItemRssi \(BSiesBabyBlueManager.default.currentTrackingItemRssi) currentTrackingItemName - \(BSiesBabyBlueManager.default.currentTrackingItemName)")
+            
+            //
+            if voiceBtn.isSelected == true {
+                BSiesAudioVibManager.default.playAudio()
+            } else {
+                BSiesAudioVibManager.default.stopAudio()
+            }
+            if vibrationBtn.isSelected == true {
+                BSiesAudioVibManager.default.playFeedVib()
+            } else {
+                BSiesAudioVibManager.default.stopFeedVib()
+            }
         }
         
         
@@ -150,7 +162,7 @@ extension BSiegDeviceContentVC {
         } else {
             BSiesBabyBlueManager.default.removeUserFavorite(deviceId: bluetoothDevice.identifier)
         }
-        updateFavoriteStatus()
+//        updateFavoriteStatus()
     }
 }
 

@@ -17,7 +17,6 @@
 		D80D359829EA46F400F6B307 /* BSiesBabyBlueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80D359729EA46F400F6B307 /* BSiesBabyBlueManager.swift */; };
 		D80D35A029EAB13300F6B307 /* PeripheralItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80D359F29EAB13300F6B307 /* PeripheralItem.swift */; };
 		D80D35A429EAB9BB00F6B307 /* did_slow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D80D35A129EAB9BB00F6B307 /* did_slow.mp3 */; };
-		D80D35A529EAB9BB00F6B307 /* did_slowslow.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D80D35A229EAB9BB00F6B307 /* did_slowslow.mp3 */; };
 		D80D35A629EAB9BB00F6B307 /* did_fast.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D80D35A329EAB9BB00F6B307 /* did_fast.mp3 */; };
 		D80D35A829EABA3600F6B307 /* BSiesAudioVibManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80D35A729EABA3600F6B307 /* BSiesAudioVibManager.swift */; };
 		D80D35AA29EBA44200F6B307 /* BSiegMapDegreeScaleV.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80D35A929EBA44200F6B307 /* BSiegMapDegreeScaleV.swift */; };
@@ -51,7 +50,6 @@
 		D80D359729EA46F400F6B307 /* BSiesBabyBlueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSiesBabyBlueManager.swift; sourceTree = "<group>"; };
 		D80D359F29EAB13300F6B307 /* PeripheralItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralItem.swift; sourceTree = "<group>"; };
 		D80D35A129EAB9BB00F6B307 /* did_slow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = did_slow.mp3; sourceTree = "<group>"; };
-		D80D35A229EAB9BB00F6B307 /* did_slowslow.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = did_slowslow.mp3; sourceTree = "<group>"; };
 		D80D35A329EAB9BB00F6B307 /* did_fast.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = did_fast.mp3; sourceTree = "<group>"; };
 		D80D35A729EABA3600F6B307 /* BSiesAudioVibManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSiesAudioVibManager.swift; sourceTree = "<group>"; };
 		D80D35A929EBA44200F6B307 /* BSiegMapDegreeScaleV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSiegMapDegreeScaleV.swift; sourceTree = "<group>"; };
@@ -153,7 +151,6 @@
 				EBA787E729DFFF6800B63396 /* LaunchScreen.storyboard */,
 				D80D35A329EAB9BB00F6B307 /* did_fast.mp3 */,
 				D80D35A129EAB9BB00F6B307 /* did_slow.mp3 */,
-				D80D35A229EAB9BB00F6B307 /* did_slowslow.mp3 */,
 				EBA787EA29DFFF6800B63396 /* Info.plist */,
 				EB73F84529E40C3F00A32E73 /* Poppins.ttf */,
 				EBA787F029E0087800B63396 /* Poppins-Bold.ttf */,
@@ -248,7 +245,6 @@
 				EBA787E429DFFF6500B63396 /* Main.storyboard in Resources */,
 				EBA787F129E0087900B63396 /* Poppins-Bold.ttf in Resources */,
 				EB73F84629E40C3F00A32E73 /* Poppins.ttf in Resources */,
-				D80D35A529EAB9BB00F6B307 /* did_slowslow.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,30 +463,32 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 53ADUL6525;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BSiegBluetoothSearch/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = BlueSearch;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "\"Bluetooth Scanner requires access to your device's bluetooth services.\"";
-				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "\"Bluetooth Scanner requires access to your device's bluetooth services.\"";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"Bluetooth Scanner will use your location to help you find your devices on a map\"";
-				INFOPLIST_KEY_NSLocationUsageDescription = "\"Bluetooth Scanner requires access to your device's bluetooth services.\"";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"Bluetooth Scanner will use your location to help you find your devices on a map\"";
+				INFOPLIST_KEY_CFBundleDisplayName = "Find Headphone";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Find Headphone requires access to your device's bluetooth services.";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Find Headphone requires access to your device's bluetooth services to help you find your devices.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "App needs your camera permission to scan documents to generate PDF files to print.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Find Headphone will use your location to help you find your devices on a map";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Find Headphone requires access to your device's bluetooth services.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Find Headphone will use your location to help you find your devices on a map";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.superegg.okeydokey;
+				PRODUCT_BUNDLE_IDENTIFIER = com.find.cellphones;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -513,18 +511,20 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BSiegBluetoothSearch/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = BlueSearch;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "\"Bluetooth Scanner requires access to your device's bluetooth services.\"";
-				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "\"Bluetooth Scanner requires access to your device's bluetooth services.\"";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"Bluetooth Scanner will use your location to help you find your devices on a map\"";
-				INFOPLIST_KEY_NSLocationUsageDescription = "\"Bluetooth Scanner requires access to your device's bluetooth services.\"";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"Bluetooth Scanner will use your location to help you find your devices on a map\"";
+				INFOPLIST_KEY_CFBundleDisplayName = "Find Headphone";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Find Headphone requires access to your device's bluetooth services.";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Find Headphone requires access to your device's bluetooth services to help you find your devices.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "App needs your camera permission to scan documents to generate PDF files to print.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Find Headphone will use your location to help you find your devices on a map";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Find Headphone requires access to your device's bluetooth services.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Find Headphone will use your location to help you find your devices on a map";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

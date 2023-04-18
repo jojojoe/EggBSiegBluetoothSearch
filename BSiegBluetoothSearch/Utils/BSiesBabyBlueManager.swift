@@ -40,7 +40,7 @@ class BSiesBabyBlueManager: NSObject {
     
     
     func startScan() {
-        peripheralItemList = []
+//        peripheralItemList = []
         DispatchQueue.global().async {
             [weak self] in
             guard let `self` = self else {return}
@@ -61,11 +61,13 @@ extension BSiesBabyBlueManager {
     func fetchUserFavorites() {
         
         favoriteDevicesIdList = UserDefaults.standard.object(forKey: "ud_favoriteDevicesId") as? [String] ?? []
+        debugPrint("favoriteDevicesIdList = \(favoriteDevicesIdList.count)")
     }
     
     func addUserFavorite(deviceId: String) {
         favoriteDevicesIdList.append(deviceId)
         UserDefaults.standard.set(favoriteDevicesIdList, forKey: "ud_favoriteDevicesId")
+        UserDefaults.standard.synchronize()
     }
     
     func removeUserFavorite(deviceId: String) {
@@ -74,6 +76,7 @@ extension BSiesBabyBlueManager {
                 item == deviceId
             }
             UserDefaults.standard.set(favoriteDevicesIdList, forKey: "ud_favoriteDevicesId")
+            UserDefaults.standard.synchronize()
         }
     }
     

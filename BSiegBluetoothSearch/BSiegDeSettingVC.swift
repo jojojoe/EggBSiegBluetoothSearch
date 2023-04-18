@@ -6,9 +6,16 @@
 //
 
 import UIKit
+import MessageUI
+import DeviceKit
+import KRProgressHUD
 
-class BSiegDeSettingVC: UIViewController {
-
+class BSiegDeSettingVC: UIViewController, MFMailComposeViewControllerDelegate {
+    let shareUrl: String = "itms-apps://itunes.apple.com/cn/app/id\("6447954851")?mt=8"
+    let feedbackStr: String = "lwang0928@gmail.com"
+    let termsStr = "https://sites.google.com/view/findheadphone-termsofuse/home"
+    let privacyStr = "https://sites.google.com/view/findheadphone-privacypolicy/home"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -58,31 +65,35 @@ class BSiegDeSettingVC: UIViewController {
         //
         
         //
-        let subBtn = UIButton()
-        subBtn.backgroundColor = .white
-        subBtn.layer.cornerRadius = 20
-        view.addSubview(subBtn)
-        subBtn.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(24)
-            $0.top.equalTo(backB.snp.bottom).offset(25)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(64)
-        }
-        subBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-        subBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
-        subBtn.setImage(UIImage(named: "wangguan"), for: .normal)
-        subBtn.setTitle( "To Unlock All Features", for: .normal)
-        subBtn.setTitleColor(UIColor(hexString: "#242766"), for: .normal)
-        subBtn.titleLabel?.font = UIFont(name: "Poppins", size: 16)
-        subBtn.contentHorizontalAlignment = .left
-        subBtn.addTarget(self, action: #selector(subscribeBClick(sender: )), for: .touchUpInside)
+        /*
+//        let subBtn = UIButton()
+//        subBtn.backgroundColor = .white
+//        subBtn.layer.cornerRadius = 20
+//        view.addSubview(subBtn)
+//        subBtn.snp.makeConstraints {
+//            $0.left.equalToSuperview().offset(24)
+//            $0.top.equalTo(backB.snp.bottom).offset(25)
+//            $0.centerX.equalToSuperview()
+//            $0.height.equalTo(64)
+//        }
+//        subBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
+//        subBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
+//        subBtn.setImage(UIImage(named: "wangguan"), for: .normal)
+//        subBtn.setTitle( "To Unlock All Features", for: .normal)
+//        subBtn.setTitleColor(UIColor(hexString: "#242766"), for: .normal)
+//        subBtn.titleLabel?.font = UIFont(name: "Poppins", size: 16)
+//        subBtn.contentHorizontalAlignment = .left
+//        subBtn.addTarget(self, action: #selector(subscribeBClick(sender: )), for: .touchUpInside)
+         */
+        
         //
         let shareBgV = UIView()
         view.addSubview(shareBgV)
         shareBgV.snp.makeConstraints {
             $0.left.equalToSuperview().offset(24)
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(subBtn.snp.bottom).offset(20)
+//            $0.top.equalTo(subBtn.snp.bottom).offset(20)
+            $0.top.equalTo(backB.snp.bottom).offset(25)
             $0.height.equalTo(128)
         }
         shareBgV.backgroundColor = .white
@@ -134,8 +145,8 @@ class BSiegDeSettingVC: UIViewController {
         morehelpBtn.setTitleColor(UIColor(hexString: "#242766"), for: .normal)
         morehelpBtn.titleLabel?.font = UIFont(name: "Poppins", size: 16)
         morehelpBtn.contentHorizontalAlignment = .left
+        morehelpBtn.addTarget(self, action: #selector(morehelpBClick(sender: )), for: .touchUpInside)
         
-        //
         //
         let privacyBgV = UIView()
         view.addSubview(privacyBgV)
@@ -195,26 +206,28 @@ class BSiegDeSettingVC: UIViewController {
         termsBtn.contentHorizontalAlignment = .left
         termsBtn.addTarget(self, action: #selector(termsBClick(sender: )), for: .touchUpInside)
         
-        
+        /*
         //
-        let restoreBtn = UIButton()
-        restoreBtn.backgroundColor = .white
-        restoreBtn.layer.cornerRadius = 20
-        view.addSubview(restoreBtn)
-        restoreBtn.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(24)
-            $0.top.equalTo(privacyBgV.snp.bottom).offset(20)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(64)
-        }
-        restoreBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-        restoreBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
-        restoreBtn.setImage(UIImage(named: "file-alt"), for: .normal)
-        restoreBtn.setTitle( "Restore", for: .normal)
-        restoreBtn.setTitleColor(UIColor(hexString: "#242766"), for: .normal)
-        restoreBtn.titleLabel?.font = UIFont(name: "Poppins", size: 16)
-        restoreBtn.contentHorizontalAlignment = .left
-        restoreBtn.addTarget(self, action: #selector(restoreBClick(sender: )), for: .touchUpInside)
+//        let restoreBtn = UIButton()
+//        restoreBtn.backgroundColor = .white
+//        restoreBtn.layer.cornerRadius = 20
+//        view.addSubview(restoreBtn)
+//        restoreBtn.snp.makeConstraints {
+//            $0.left.equalToSuperview().offset(24)
+//            $0.top.equalTo(privacyBgV.snp.bottom).offset(20)
+//            $0.centerX.equalToSuperview()
+//            $0.height.equalTo(64)
+//        }
+//        restoreBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
+//        restoreBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
+//        restoreBtn.setImage(UIImage(named: "file-alt"), for: .normal)
+//        restoreBtn.setTitle( "Restore", for: .normal)
+//        restoreBtn.setTitleColor(UIColor(hexString: "#242766"), for: .normal)
+//        restoreBtn.titleLabel?.font = UIFont(name: "Poppins", size: 16)
+//        restoreBtn.contentHorizontalAlignment = .left
+//        restoreBtn.addTarget(self, action: #selector(restoreBClick(sender: )), for: .touchUpInside)
+         */
+        
     }
 
     
@@ -229,19 +242,62 @@ class BSiegDeSettingVC: UIViewController {
         
     }
     @objc func shareBClick(sender: UIButton) {
-        
+        let shareStr = "Share with friends:\(shareUrl)"
+        let activityItems = [shareStr] as [Any]
+        let vc = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        self.present(vc, animated: true)
     }
     @objc func morehelpBClick(sender: UIButton) {
-        
+        if MFMailComposeViewController.canSendMail() {
+            let systemVersion = UIDevice.current.systemVersion
+            let modelName = Device.current.description
+            let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+            let appName = Bundle.main.infoDictionary?["CFBundleDisplayName"] as? String ?? "Find Headphone"
+            let controller = MFMailComposeViewController()
+            controller.mailComposeDelegate = self
+            controller.setSubject("\(appName) Feedback")
+            controller.setToRecipients([feedbackStr])
+            controller.setMessageBody("\n\n\nSystem Version：\(systemVersion)\n Device Name：\(modelName)\n App Name：\(appName)\n App Version：\(appVersion )", isHTML: false)
+            self.present(controller, animated: true, completion: nil)
+        } else {
+            KRProgressHUD.showError(withMessage: "The device doesn't support email")
+        }
     }
     @objc func privacyBClick(sender: UIButton) {
-        
+        if let url = URL(string: privacyStr) {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
     }
     @objc func termsBClick(sender: UIButton) {
-        
+        if let url = URL(string: termsStr) {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
     }
+    
+    /*
     @objc func restoreBClick(sender: UIButton) {
         
+        if BSiegSubscribeManager.default.inSubscription {
+            KRProgressHUD.showSuccess(withMessage: "You are already in the subscription period!")
+        } else {
+            BSiegSubscribeManager.default.restore { success in
+                if success {
+                    KRProgressHUD.showSuccess(withMessage: "The subscription was restored successfully")
+                } else {
+                    KRProgressHUD.showMessage("Nothing to Restore")
+                }
+            }
+        }
+         
+    }
+         */
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
     
 }
