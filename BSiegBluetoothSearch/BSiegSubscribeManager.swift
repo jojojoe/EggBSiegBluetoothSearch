@@ -19,6 +19,17 @@ import DeviceKit
 class BSiegSubscribeManager {
     public static var `default` = BSiegSubscribeManager()
     
+    let shareUrl: String = "itms-apps://itunes.apple.com/cn/app/id\("6447954851")?mt=8"
+    let feedbackStr: String = "lwang0928@gmail.com"
+    let termsStr = "https://sites.google.com/view/findheadphone-termsofuse/home"
+    let privacyStr = "https://sites.google.com/view/findheadphone-privacypolicy/home"
+    
+    public enum IAPType: String {
+        
+        case month = "com.find.cellphones.month"
+        case year = "com.find.cellphones.year"
+    }
+    
     public struct PurchaseNotificationKeys {
         static let success = "success"
         static let failed = "failed"
@@ -30,12 +41,6 @@ class BSiegSubscribeManager {
         public var priceLocale: Locale
         public var localizedPrice: String?
         public var currencyCode: String?
-    }
-    
-    public enum IAPType: String {
-        
-        case month = "com.scan.print.fast.month"
-        case year = "com.scan.print.fast.year"
     }
     
     public enum VerifyLocalReceiptResult {

@@ -10,6 +10,8 @@
 		<string>SF-Pro-Text-Black.otf</string>
 		<string>Poppins-Bold.ttf</string>
 		<string>Poppins.ttf</string>
+		<string>Poppins-Medium.ttf</string>
+		<string>Poppins-SemiBold.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

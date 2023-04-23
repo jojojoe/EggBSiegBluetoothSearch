@@ -51,10 +51,7 @@ class BSiegDeviceContentVC: UIViewController {
             BSiesBabyBlueManager.default.startScan()
         }
         
-     
-        
     }
-    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -131,6 +128,12 @@ class BSiegDeviceContentVC: UIViewController {
         
     }
 
+    func userSubscriVC() {
+        let subsVC = BSiegDeSubscVC()
+        subsVC.modalPresentationStyle = .fullScreen
+        self.present(subsVC, animated: true)
+    }
+    
 }
 
 extension BSiegDeviceContentVC {
@@ -194,7 +197,7 @@ extension BSiegDeviceContentVC {
         tiNameLabel.snp.makeConstraints {
             $0.left.equalTo(backB.snp.right).offset(20)
             $0.centerY.equalTo(backB.snp.centerY).offset(0)
-            $0.centerX.equalToSuperview()
+            $0.right.equalToSuperview().offset(-20)
             $0.height.greaterThanOrEqualTo(17)
         }
         tiNameLabel.lineBreakMode = .byTruncatingTail
@@ -294,8 +297,6 @@ extension BSiegDeviceContentVC {
             $0.top.equalTo(backB.snp.bottom).offset(10)
             $0.bottom.equalTo(favoriteBtn.snp.top).offset(-10)
         }
-        //
-        
         
     }
     
@@ -404,8 +405,13 @@ extension BSiegDeviceContentVC {
     }
     
     @objc func positionBtnClick(sender: BSiegToolBtn) {
-        let vc = BSiegDeviceMapPositionVC(bluetoothDevice: bluetoothDevice)
-        self.navigationController?.pushViewController(vc, animated: true)
+        if !BSiegSubscribeManager.default.inSubscription {
+            userSubscriVC()
+        } else {
+            let vc = BSiegDeviceMapPositionVC(bluetoothDevice: bluetoothDevice)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
     
     @objc func favoriteBtnClick(sender: BSiegToolBtn) {
@@ -421,17 +427,21 @@ extension BSiegDeviceContentVC {
     }
     
     @objc func voiceBtnClick(sender: BSiegToolBtn) {
-        sender.isSelected = !sender.isSelected
-        if sender.isSelected == true {
-            sender.backgroundColor = UIColor(hexString: "#3971FF")
-            sender.iconImgV.image = UIImage(named: "icon_voice_s")
-            sender.nameL.textColor = UIColor(hexString: "#FFFFFF")
-            BSiesAudioVibManager.default.playAudio()
+        if !BSiegSubscribeManager.default.inSubscription {
+            userSubscriVC()
         } else {
-            sender.backgroundColor = UIColor(hexString: "#FFFFFF")
-            sender.iconImgV.image = UIImage(named: "icon_voice")
-            sender.nameL.textColor = UIColor(hexString: "#242766")
-            BSiesAudioVibManager.default.stopAudio()
+            sender.isSelected = !sender.isSelected
+            if sender.isSelected == true {
+                sender.backgroundColor = UIColor(hexString: "#3971FF")
+                sender.iconImgV.image = UIImage(named: "icon_voice_s")
+                sender.nameL.textColor = UIColor(hexString: "#FFFFFF")
+                BSiesAudioVibManager.default.playAudio()
+            } else {
+                sender.backgroundColor = UIColor(hexString: "#FFFFFF")
+                sender.iconImgV.image = UIImage(named: "icon_voice")
+                sender.nameL.textColor = UIColor(hexString: "#242766")
+                BSiesAudioVibManager.default.stopAudio()
+            }
         }
     }
     
@@ -458,8 +468,8 @@ class BSiegToolBtn: UIButton {
         addSubview(iconImgV)
         iconImgV.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(snp.centerY).offset(-4)
-            $0.width.height.equalTo(24)
+            $0.bottom.equalTo(snp.centerY).offset(0)
+            $0.width.height.equalTo(30)
         }
         iconImgV.contentMode = .scaleAspectFit
         //
@@ -467,8 +477,9 @@ class BSiegToolBtn: UIButton {
         addSubview(nameL)
         nameL.snp.makeConstraints {
             $0.left.equalTo(self.snp.left).offset(20)
-            $0.top.equalTo(iconImgV.snp.bottom).offset(0)
-            $0.bottom.equalToSuperview()
+            $0.top.equalTo(iconImgV.snp.bottom).offset(10)
+//            $0.bottom.equalToSuperview().offset(-5)
+            $0.height.greaterThanOrEqualTo(10)
             $0.centerX.equalToSuperview()
             
         }
@@ -476,7 +487,7 @@ class BSiegToolBtn: UIButton {
         nameL.numberOfLines = 1
         nameL.lineBreakMode = .byTruncatingTail
         nameL.textColor = UIColor(hexString: "#242766")
-        nameL.font = UIFont(name: "Poppins", size: 14)
+        nameL.font = UIFont(name: "Poppins-Medium", size: 15)
         
         
     }

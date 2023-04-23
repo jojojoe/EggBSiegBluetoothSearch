@@ -61,7 +61,7 @@ class BSiegSearchingBottomV: UIView {
         bgBtn.snp.makeConstraints {
             $0.left.right.top.bottom.equalToSuperview()
         }
-        bgBtn.addTarget(self, action: #selector(searchingCloseBtnClick(sender: )), for: .touchUpInside)
+//        bgBtn.addTarget(self, action: #selector(searchingCloseBtnClick(sender: )), for: .touchUpInside)
         //
         addSubview(searchingBottomV)
         searchingBottomV.backgroundColor = .clear
@@ -124,7 +124,7 @@ class BSiegSearchingBottomV: UIView {
         
         searchingBottomV.addSubview(searingCountInfoLabel)
         searingCountInfoLabel.text = "0 nearby devices found"
-        searingCountInfoLabel.font = UIFont(name: "Poppins", size: 12)
+        searingCountInfoLabel.font = UIFont(name: "Poppins-Medium", size: 12)
         searingCountInfoLabel.textColor = UIColor(hexString: "#242766")?.withAlphaComponent(0.5)
         searingCountInfoLabel.textAlignment = .center
         searingCountInfoLabel.adjustsFontSizeToFitWidth = true

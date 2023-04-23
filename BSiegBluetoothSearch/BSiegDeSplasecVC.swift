@@ -33,7 +33,7 @@ class BSiegDeSplasecVC: UIViewController {
         collection.backgroundColor = .clear
         collection.delegate = self
         collection.dataSource = self
-//        collection.isPagingEnabled = true
+        collection.isPagingEnabled = true
         view.addSubview(collection)
         collection.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)

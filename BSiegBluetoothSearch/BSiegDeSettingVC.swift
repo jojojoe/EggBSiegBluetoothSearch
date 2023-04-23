@@ -11,15 +11,40 @@ import DeviceKit
 import KRProgressHUD
 
 class BSiegDeSettingVC: UIViewController, MFMailComposeViewControllerDelegate {
-    let shareUrl: String = "itms-apps://itunes.apple.com/cn/app/id\("6447954851")?mt=8"
-    let feedbackStr: String = "lwang0928@gmail.com"
-    let termsStr = "https://sites.google.com/view/findheadphone-termsofuse/home"
-    let privacyStr = "https://sites.google.com/view/findheadphone-privacypolicy/home"
+    let backB = UIButton()
+    let subBtn = UIButton()
+    let shareBgV = UIView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupViews()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateContentInsubscrStatus()
+    }
+    
+    func updateContentInsubscrStatus() {
+        if BSiegSubscribeManager.default.inSubscription {
+            subBtn.isHidden = true
+            
+            shareBgV.snp.remakeConstraints {
+                $0.left.equalToSuperview().offset(24)
+                $0.centerX.equalToSuperview()
+                $0.top.equalTo(backB.snp.bottom).offset(25)
+                $0.height.equalTo(128)
+            }
+        } else {
+            subBtn.isHidden = false
+            shareBgV.snp.remakeConstraints {
+                $0.left.equalToSuperview().offset(24)
+                $0.centerX.equalToSuperview()
+                $0.top.equalTo(subBtn.snp.bottom).offset(20)
+                $0.height.equalTo(128)
+            }
+        }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -37,7 +62,7 @@ class BSiegDeSettingVC: UIViewController, MFMailComposeViewControllerDelegate {
         }
         
         //
-        let backB = UIButton()
+        
         view.addSubview(backB)
         backB.snp.makeConstraints {
             $0.left.equalToSuperview().offset(20)
@@ -64,36 +89,34 @@ class BSiegDeSettingVC: UIViewController, MFMailComposeViewControllerDelegate {
         
         //
         
-        //
-        /*
-//        let subBtn = UIButton()
-//        subBtn.backgroundColor = .white
-//        subBtn.layer.cornerRadius = 20
-//        view.addSubview(subBtn)
-//        subBtn.snp.makeConstraints {
-//            $0.left.equalToSuperview().offset(24)
-//            $0.top.equalTo(backB.snp.bottom).offset(25)
-//            $0.centerX.equalToSuperview()
-//            $0.height.equalTo(64)
-//        }
-//        subBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-//        subBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
-//        subBtn.setImage(UIImage(named: "wangguan"), for: .normal)
-//        subBtn.setTitle( "To Unlock All Features", for: .normal)
-//        subBtn.setTitleColor(UIColor(hexString: "#242766"), for: .normal)
-//        subBtn.titleLabel?.font = UIFont(name: "Poppins", size: 16)
-//        subBtn.contentHorizontalAlignment = .left
-//        subBtn.addTarget(self, action: #selector(subscribeBClick(sender: )), for: .touchUpInside)
-         */
+        
+        subBtn.backgroundColor = .white
+        subBtn.layer.cornerRadius = 20
+        view.addSubview(subBtn)
+        subBtn.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(24)
+            $0.top.equalTo(backB.snp.bottom).offset(25)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(64)
+        }
+        subBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
+        subBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
+        subBtn.setImage(UIImage(named: "wangguan"), for: .normal)
+        subBtn.setTitle( "To Unlock All Features", for: .normal)
+        subBtn.setTitleColor(UIColor(hexString: "#242766"), for: .normal)
+        subBtn.titleLabel?.font = UIFont(name: "Poppins-SemiBold", size: 16)
+        subBtn.contentHorizontalAlignment = .left
+        subBtn.addTarget(self, action: #selector(subscribeBClick(sender: )), for: .touchUpInside)
+          
         
         //
-        let shareBgV = UIView()
+
         view.addSubview(shareBgV)
         shareBgV.snp.makeConstraints {
             $0.left.equalToSuperview().offset(24)
             $0.centerX.equalToSuperview()
-//            $0.top.equalTo(subBtn.snp.bottom).offset(20)
-            $0.top.equalTo(backB.snp.bottom).offset(25)
+            $0.top.equalTo(subBtn.snp.bottom).offset(20)
+//            $0.top.equalTo(backB.snp.bottom).offset(25)
             $0.height.equalTo(128)
         }
         shareBgV.backgroundColor = .white
@@ -125,7 +148,7 @@ class BSiegDeSettingVC: UIViewController, MFMailComposeViewControllerDelegate {
         shareBtn.setImage(UIImage(named: "share"), for: .normal)
         shareBtn.setTitle( "Share", for: .normal)
         shareBtn.setTitleColor(UIColor(hexString: "#242766"), for: .normal)
-        shareBtn.titleLabel?.font = UIFont(name: "Poppins", size: 16)
+        shareBtn.titleLabel?.font = UIFont(name: "Poppins-SemiBold", size: 16)
         shareBtn.contentHorizontalAlignment = .left
         shareBtn.addTarget(self, action: #selector(shareBClick(sender: )), for: .touchUpInside)
         //
@@ -143,7 +166,7 @@ class BSiegDeSettingVC: UIViewController, MFMailComposeViewControllerDelegate {
         morehelpBtn.setImage(UIImage(named: "file-question"), for: .normal)
         morehelpBtn.setTitle( "More Help", for: .normal)
         morehelpBtn.setTitleColor(UIColor(hexString: "#242766"), for: .normal)
-        morehelpBtn.titleLabel?.font = UIFont(name: "Poppins", size: 16)
+        morehelpBtn.titleLabel?.font = UIFont(name: "Poppins-SemiBold", size: 16)
         morehelpBtn.contentHorizontalAlignment = .left
         morehelpBtn.addTarget(self, action: #selector(morehelpBClick(sender: )), for: .touchUpInside)
         
@@ -184,7 +207,7 @@ class BSiegDeSettingVC: UIViewController, MFMailComposeViewControllerDelegate {
         privacyBtn.setImage(UIImage(named: "lock-alt"), for: .normal)
         privacyBtn.setTitle( "Privacy Policy", for: .normal)
         privacyBtn.setTitleColor(UIColor(hexString: "#242766"), for: .normal)
-        privacyBtn.titleLabel?.font = UIFont(name: "Poppins", size: 16)
+        privacyBtn.titleLabel?.font = UIFont(name: "Poppins-SemiBold", size: 16)
         privacyBtn.contentHorizontalAlignment = .left
         privacyBtn.addTarget(self, action: #selector(privacyBClick(sender: )), for: .touchUpInside)
         //
@@ -202,34 +225,38 @@ class BSiegDeSettingVC: UIViewController, MFMailComposeViewControllerDelegate {
         termsBtn.setImage(UIImage(named: "file-alt"), for: .normal)
         termsBtn.setTitle( "Terms of use", for: .normal)
         termsBtn.setTitleColor(UIColor(hexString: "#242766"), for: .normal)
-        termsBtn.titleLabel?.font = UIFont(name: "Poppins", size: 16)
+        termsBtn.titleLabel?.font = UIFont(name: "Poppins-SemiBold", size: 16)
         termsBtn.contentHorizontalAlignment = .left
         termsBtn.addTarget(self, action: #selector(termsBClick(sender: )), for: .touchUpInside)
         
-        /*
+        
         //
-//        let restoreBtn = UIButton()
-//        restoreBtn.backgroundColor = .white
-//        restoreBtn.layer.cornerRadius = 20
-//        view.addSubview(restoreBtn)
-//        restoreBtn.snp.makeConstraints {
-//            $0.left.equalToSuperview().offset(24)
-//            $0.top.equalTo(privacyBgV.snp.bottom).offset(20)
-//            $0.centerX.equalToSuperview()
-//            $0.height.equalTo(64)
-//        }
-//        restoreBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-//        restoreBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
-//        restoreBtn.setImage(UIImage(named: "file-alt"), for: .normal)
-//        restoreBtn.setTitle( "Restore", for: .normal)
-//        restoreBtn.setTitleColor(UIColor(hexString: "#242766"), for: .normal)
-//        restoreBtn.titleLabel?.font = UIFont(name: "Poppins", size: 16)
-//        restoreBtn.contentHorizontalAlignment = .left
-//        restoreBtn.addTarget(self, action: #selector(restoreBClick(sender: )), for: .touchUpInside)
-         */
+        let restoreBtn = UIButton()
+        restoreBtn.backgroundColor = .white
+        restoreBtn.layer.cornerRadius = 20
+        view.addSubview(restoreBtn)
+        restoreBtn.snp.makeConstraints {
+            $0.left.equalToSuperview().offset(24)
+            $0.top.equalTo(privacyBgV.snp.bottom).offset(20)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(64)
+        }
+        restoreBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
+        restoreBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
+        restoreBtn.setImage(UIImage(named: "restore 1"), for: .normal)
+        restoreBtn.setTitle( "Restore", for: .normal)
+        restoreBtn.setTitleColor(UIColor(hexString: "#242766"), for: .normal)
+        restoreBtn.titleLabel?.font = UIFont(name: "Poppins-SemiBold", size: 16)
+        restoreBtn.contentHorizontalAlignment = .left
+        restoreBtn.addTarget(self, action: #selector(restoreBClick(sender: )), for: .touchUpInside)
+         
         
     }
-
+    func userSubscriVC() {
+        let subsVC = BSiegDeSubscVC()
+        subsVC.modalPresentationStyle = .fullScreen
+        self.present(subsVC, animated: true)
+    }
     
     @objc func backBClick(sender: UIButton) {
         if self.navigationController != nil {
@@ -239,10 +266,11 @@ class BSiegDeSettingVC: UIViewController, MFMailComposeViewControllerDelegate {
         }
     }
     @objc func subscribeBClick(sender: UIButton) {
-        
+        userSubscriVC()
     }
     @objc func shareBClick(sender: UIButton) {
-        let shareStr = "Share with friends:\(shareUrl)"
+        
+        let shareStr = "Share with friends:\(BSiegSubscribeManager.default.shareUrl)"
         let activityItems = [shareStr] as [Any]
         let vc = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         self.present(vc, animated: true)
@@ -256,7 +284,7 @@ class BSiegDeSettingVC: UIViewController, MFMailComposeViewControllerDelegate {
             let controller = MFMailComposeViewController()
             controller.mailComposeDelegate = self
             controller.setSubject("\(appName) Feedback")
-            controller.setToRecipients([feedbackStr])
+            controller.setToRecipients([BSiegSubscribeManager.default.feedbackStr])
             controller.setMessageBody("\n\n\nSystem Version：\(systemVersion)\n Device Name：\(modelName)\n App Name：\(appName)\n App Version：\(appVersion )", isHTML: false)
             self.present(controller, animated: true, completion: nil)
         } else {
@@ -264,21 +292,22 @@ class BSiegDeSettingVC: UIViewController, MFMailComposeViewControllerDelegate {
         }
     }
     @objc func privacyBClick(sender: UIButton) {
-        if let url = URL(string: privacyStr) {
+        
+        if let url = URL(string: BSiegSubscribeManager.default.privacyStr) {
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
     }
     @objc func termsBClick(sender: UIButton) {
-        if let url = URL(string: termsStr) {
+        if let url = URL(string: BSiegSubscribeManager.default.termsStr) {
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
     }
     
-    /*
+    
     @objc func restoreBClick(sender: UIButton) {
         
         if BSiegSubscribeManager.default.inSubscription {
@@ -294,7 +323,7 @@ class BSiegDeSettingVC: UIViewController, MFMailComposeViewControllerDelegate {
         }
          
     }
-         */
+         
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
