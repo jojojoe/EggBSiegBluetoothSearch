@@ -8,6 +8,9 @@
 import UIKit
 import SnapKit
 import SwifterSwift
+import StoreKit
+import SwiftyStoreKit
+import SwiftyTimer
 
 class ViewController: UIViewController {
     let settingBtn = UIButton()
@@ -15,6 +18,8 @@ class ViewController: UIViewController {
     let scanCollectionV = BSiegBlueDeviceCollectionView()
     let searchingBottomV = BSiegSearchingBottomV()
     let feedvis = UIImpactFeedbackGenerator.init(style: .light)
+    var hasShowScanSubscribeVC = false
+    var scaningTimer: Timer?
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .darkContent
@@ -22,12 +27,14 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupBlueCentral()
+        SwiftyStoreKit.completeTransactions { _ in
+            
+        }
+//        setupBlueCentral()
         setupV()
         
         scanCollectionV.isHidden = false
-        showSearchingBanner(isShow: true)
+//        showSearchingBanner(isShow: true)
 //        showSearchingBanner(isShow: false)
         
         //
@@ -59,16 +66,16 @@ class ViewController: UIViewController {
 ////        mapDegree.backgroundColor = .clear
 //    }
     
-    @objc func audioPlayBtnClick(sender: UIButton) {
-        sender.isSelected = !sender.isSelected
-        
-        
-        if sender.isSelected {
-//            BSiesAudioVibManager.default.playAudio()
-        } else {
-//            BSiesAudioVibManager.default.stopAudio()
-        }
-    }
+//    @objc func audioPlayBtnClick(sender: UIButton) {
+//        sender.isSelected = !sender.isSelected
+//
+//
+//        if sender.isSelected {
+////            BSiesAudioVibManager.default.playAudio()
+//        } else {
+////            BSiesAudioVibManager.default.stopAudio()
+//        }
+//    }
     
     
     
@@ -77,11 +84,79 @@ class ViewController: UIViewController {
             searchingBottomV.isHidden = false
             searchingBottomV.startScanRotateAnimal()
             
+            addnewScaningTimer()
+            
+//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 8) {
+//                [weak self] in
+//                guard let `self` = self else {return}
+//                if self.searchingBottomV.isHidden == false {
+//
+//                    self.stopScaningAction()
+//
+//                }
+//            }
         } else {
-            searchingBottomV.isHidden = true
-            searchingBottomV.stopScanRotateAnimal()
+            
+            self.searchingEnd()
         }
 
+    }
+    
+    func searchingEnd() {
+        stopTimer()
+        searchingBottomV.isHidden = true
+        searchingBottomV.stopScanRotateAnimal()
+        
+        
+        if !hasShowScanSubscribeVC {
+            hasShowScanSubscribeVC = true
+            if !BSiegSubscribeManager.default.inSubscription {
+                userSubscriVC()
+            } else {
+                showReview()
+            }
+            
+        } else {
+            showReview()
+        }
+        
+    }
+    
+    func addnewScaningTimer() {
+        let timer = Timer.after(8) {
+            [weak self] in
+            guard let `self` = self else {return}
+            DispatchQueue.main.async {
+                if self.searchingBottomV.isHidden == false {
+                    self.stopScaningAction()
+                }
+            }
+        }
+         
+        scaningTimer = timer
+        timer.start()
+    }
+    
+    func stopTimer() {
+        if let timer = scaningTimer {
+            timer.invalidate()
+            scaningTimer = nil
+        }
+    }
+    
+    
+    
+    func userSubscriVC() {
+        let subsVC = BSiegDeSubscVC()
+        subsVC.modalPresentationStyle = .fullScreen
+        self.present(subsVC, animated: true)
+        subsVC.pageDisappearBlock = {
+            [weak self] in
+            guard let `self` = self else {return}
+            DispatchQueue.main.async {
+                self.showReview()
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -184,8 +259,8 @@ extension ViewController {
         view.addSubview(searchingBottomV)
         searchingBottomV.snp.makeConstraints {
             $0.left.top.right.bottom.equalToSuperview()
-//            $0.height.equalTo(362)
         }
+        searchingBottomV.isHidden = true
         searchingBottomV.searchingCloseBlock = {
             [weak self] in
             guard let `self` = self else {return}
@@ -255,8 +330,9 @@ extension ViewController {
     
     func searchAgainAction() {
         
-        showSearchingBanner(isShow: true)
+        
         if BSiesBabyBlueManager.default.centralManagerStatus == true {
+            showSearchingBanner(isShow: true)
             BSiesBabyBlueManager.default.peripheralItemList = []
             BSiesBabyBlueManager.default.startScan()
         } else {
@@ -266,7 +342,7 @@ extension ViewController {
     }
     
     func showBluetoothDeniedAlertV() {
-        let alert = UIAlertController(title: "Oops", message: "You have declined access to Bluetooth, please active it in Settings>Privacy>Bluetooth.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Oops", message: "You have declined access to Bluetooth, please active it in Settings > Bluetooth.", preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Ok", style: .default, handler: { (goSettingAction) in
             DispatchQueue.main.async {
                 let url = URL(string: UIApplication.openSettingsURLString)!
@@ -279,5 +355,14 @@ extension ViewController {
         
         self.present(alert, animated: true)
     }
+    
+    func showReview() {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            SKStoreReviewController.requestReview(in: windowScene)
+        } else {
+            SKStoreReviewController.requestReview()
+        }
+    }
+    
 }
 

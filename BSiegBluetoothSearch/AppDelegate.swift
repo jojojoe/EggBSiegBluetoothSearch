@@ -13,6 +13,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    com.superegg.okeydokey
 //    com.find.cellphones
 
+    
+    /*
+     内购版本再改：
+     1:加引导页；
+     2:让蓝牙扫描的时间稍微长点【6～8秒】，现在时间有点太短了；
+     3:在扫描完成后弹星评；
+     4:寻找设备界面播放声音和震动，点击后要有颜色；寻找设备界面 图标和文字都调整的大点；
+     5:付费逻辑：用户在每次次首次扫描完成后弹订阅面，如果用户没有退出app，在重复扫描后就不用弹订阅了【这块仿照竞品】；
+     进入找设备页面，震动可以正常使用，声音和定位卡订阅；
+     */
+    
+    
+    
+    
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 #if DEBUG
 for fy in UIFont.familyNames {

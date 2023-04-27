@@ -429,7 +429,7 @@ class BSiegBlueDevicePreview: UIView {
         
         //
         self.addSubview(describeLabel)
-        describeLabel.font = UIFont(name: "Poppins", size: 12)
+        describeLabel.font = UIFont(name: "Poppins-Medium", size: 12)
         describeLabel.textColor = UIColor(hexString: "#242766")?.withAlphaComponent(0.5)
 //        describeLabel.lineBreakMode = .byTruncatingTail
         describeLabel.adjustsFontSizeToFitWidth = true

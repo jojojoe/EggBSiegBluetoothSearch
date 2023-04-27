@@ -32,9 +32,12 @@
 		EBA787E429DFFF6500B63396 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBA787E229DFFF6500B63396 /* Main.storyboard */; };
 		EBA787E629DFFF6800B63396 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBA787E529DFFF6800B63396 /* Assets.xcassets */; };
 		EBA787E929DFFF6800B63396 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBA787E729DFFF6800B63396 /* LaunchScreen.storyboard */; };
-		EBA787F129E0087900B63396 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBA787F029E0087800B63396 /* Poppins-Bold.ttf */; };
 		EBA787F429E013F000B63396 /* BSiegBlueDeviceCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA787F329E013F000B63396 /* BSiegBlueDeviceCollectionView.swift */; };
 		EBA787F629E01B9800B63396 /* PZSwipedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA787F529E01B9800B63396 /* PZSwipedCollectionViewCell.swift */; };
+		EBB58F5729F52785009FA422 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBB58F5329F52784009FA422 /* Poppins-Regular.ttf */; };
+		EBB58F5829F52785009FA422 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBB58F5429F52785009FA422 /* Poppins-SemiBold.ttf */; };
+		EBB58F5929F52785009FA422 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBB58F5529F52785009FA422 /* Poppins-Medium.ttf */; };
+		EBB58F5C29F52BCF009FA422 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBB58F5B29F52BCE009FA422 /* Poppins-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,9 +69,13 @@
 		EBA787E529DFFF6800B63396 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EBA787E829DFFF6800B63396 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EBA787EA29DFFF6800B63396 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EBA787F029E0087800B63396 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		EBA787F329E013F000B63396 /* BSiegBlueDeviceCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSiegBlueDeviceCollectionView.swift; sourceTree = "<group>"; };
 		EBA787F529E01B9800B63396 /* PZSwipedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PZSwipedCollectionViewCell.swift; sourceTree = "<group>"; };
+		EBB58F5329F52784009FA422 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
+		EBB58F5429F52785009FA422 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
+		EBB58F5529F52785009FA422 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
+		EBB58F5B29F52BCE009FA422 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
+		EBB58F5D29F532C1009FA422 /* subscconfig.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = subscconfig.storekit; sourceTree = "<group>"; };
 		FC6B89EAC5A29056FBE06194 /* Pods-BSiegBluetoothSearch.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BSiegBluetoothSearch.release.xcconfig"; path = "Target Support Files/Pods-BSiegBluetoothSearch/Pods-BSiegBluetoothSearch.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,7 +160,11 @@
 				D80D35A129EAB9BB00F6B307 /* did_slow.mp3 */,
 				EBA787EA29DFFF6800B63396 /* Info.plist */,
 				EB73F84529E40C3F00A32E73 /* Poppins.ttf */,
-				EBA787F029E0087800B63396 /* Poppins-Bold.ttf */,
+				EBB58F5529F52785009FA422 /* Poppins-Medium.ttf */,
+				EBB58F5329F52784009FA422 /* Poppins-Regular.ttf */,
+				EBB58F5429F52785009FA422 /* Poppins-SemiBold.ttf */,
+				EBB58F5B29F52BCE009FA422 /* Poppins-Bold.ttf */,
+				EBB58F5D29F532C1009FA422 /* subscconfig.storekit */,
 			);
 			path = BSiegBluetoothSearch;
 			sourceTree = "<group>";
@@ -243,8 +254,11 @@
 				EBA787E629DFFF6800B63396 /* Assets.xcassets in Resources */,
 				D80D35A429EAB9BB00F6B307 /* did_slow.mp3 in Resources */,
 				EBA787E429DFFF6500B63396 /* Main.storyboard in Resources */,
-				EBA787F129E0087900B63396 /* Poppins-Bold.ttf in Resources */,
+				EBB58F5829F52785009FA422 /* Poppins-SemiBold.ttf in Resources */,
 				EB73F84629E40C3F00A32E73 /* Poppins.ttf in Resources */,
+				EBB58F5C29F52BCF009FA422 /* Poppins-Bold.ttf in Resources */,
+				EBB58F5729F52785009FA422 /* Poppins-Regular.ttf in Resources */,
+				EBB58F5929F52785009FA422 /* Poppins-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,7 +479,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 53ADUL6525;
+				DEVELOPMENT_TEAM = 97Y24FFSPP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BSiegBluetoothSearch/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Find Headphone";
@@ -488,7 +502,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.superegg.okeydokey;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xx.888888;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
