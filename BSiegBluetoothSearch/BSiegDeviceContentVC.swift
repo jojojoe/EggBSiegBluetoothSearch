@@ -371,6 +371,8 @@ extension BSiegDeviceContentVC {
     
     @objc func backBClick(sender: UIButton) {
         
+        BSiesAudioVibManager.default.stopFeedVib()
+        BSiesAudioVibManager.default.stopAudio()
         BSiesBabyBlueManager.default.stopScan()
         
         if self.navigationController != nil {
