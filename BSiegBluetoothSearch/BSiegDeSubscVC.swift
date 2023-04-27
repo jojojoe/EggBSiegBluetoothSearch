@@ -145,7 +145,7 @@ class BSiegDeSubscVC: UIViewController {
         }
         termsBtn.setTitle("Terms of use", for: .normal)
         termsBtn.setTitleColor(UIColor(hexString: "#242766")!.withAlphaComponent(0.5), for: .normal)
-        termsBtn.titleLabel?.font = UIFont(name: "Poppins", size: 12)
+        termsBtn.titleLabel?.font = UIFont(name: "Poppins-Medium", size: 12)
         termsBtn.addTarget(self, action: #selector(termsBtnClick(sender: )), for: .touchUpInside)
         //
         let line1 = UIView()
@@ -168,7 +168,7 @@ class BSiegDeSubscVC: UIViewController {
         }
         privacyBtn.setTitle("Privacy Policy", for: .normal)
         privacyBtn.setTitleColor(UIColor(hexString: "#242766")!.withAlphaComponent(0.5), for: .normal)
-        privacyBtn.titleLabel?.font = UIFont(name: "Poppins", size: 12)
+        privacyBtn.titleLabel?.font = UIFont(name: "Poppins-Medium", size: 12)
         privacyBtn.addTarget(self, action: #selector(privacyBtnClick(sender: )), for: .touchUpInside)
         //
 //        let line2 = UIView()
@@ -200,7 +200,7 @@ class BSiegDeSubscVC: UIViewController {
         cancelAnytimeLabel.textColor = UIColor(hexString: "#242766")!.withAlphaComponent(0.5)
         cancelAnytimeLabel.textAlignment = .center
         cancelAnytimeLabel.text = "No commitment, Cancel anytime"
-        cancelAnytimeLabel.font = UIFont(name: "Poppins", size: 10)
+        cancelAnytimeLabel.font = UIFont(name: "Poppins-Regular", size: 10)
         cancelAnytimeLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.bottom.equalTo(termsBtn.snp.top)

@@ -218,7 +218,7 @@ extension BSiegDeviceContentVC {
         testinfoLabel.text = ""
         testinfoLabel.textAlignment = .center
         testinfoLabel.textColor = UIColor(hexString: "#242766")
-        testinfoLabel.font = UIFont(name: "Poppins", size: 24)
+        testinfoLabel.font = UIFont(name: "Poppins-Medium", size: 24)
         
         
         //
@@ -364,7 +364,7 @@ extension BSiegDeviceContentVC {
         infoLabel.text = "Move around so that the signal strength increases"
         infoLabel.textAlignment = .center
         infoLabel.textColor = UIColor(hexString: "#242766")!.withAlphaComponent(0.5)
-        infoLabel.font = UIFont(name: "Poppins", size: 14)
+        infoLabel.font = UIFont(name: "Poppins-Medium", size: 14)
         
         
     }
