@@ -38,7 +38,7 @@
           "codeOffers" : [
 
           ],
-          "displayPrice" : "7.99",
+          "displayPrice" : "8.99",
           "familyShareable" : false,
           "groupNumber" : 1,
           "internalID" : "F86282A0",
@@ -63,7 +63,7 @@
           "codeOffers" : [
 
           ],
-          "displayPrice" : "10.99",
+          "displayPrice" : "29.99",
           "familyShareable" : false,
           "groupNumber" : 1,
           "internalID" : "C2EBDA15",
@@ -76,7 +76,7 @@
             }
           ],
           "productID" : "com.find.cellphones.year",
-          "recurringSubscriptionPeriod" : "P1M",
+          "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "Year",
           "subscriptionGroupID" : "12B36E97",
           "type" : "RecurringSubscription"

@@ -24,6 +24,8 @@ class BSiegSubscribeManager {
     let termsStr = "https://sites.google.com/view/findheadphone-termsofuse/home"
     let privacyStr = "https://sites.google.com/view/findheadphone-privacypolicy/home"
     
+    var isSplashBegin: Bool = false
+    
     public enum IAPType: String {
         
         case month = "com.find.cellphones.month"

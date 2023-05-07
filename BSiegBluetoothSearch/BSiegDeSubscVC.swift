@@ -16,9 +16,9 @@ import DeviceKit
 class BSiegDeSubscVC: UIViewController {
   
     
-    let monthBeforePrice: Double = 19.99
-    var defaultMonthPrice: Double = 9.99
-    var defaultYearPrice: Double = 39.99
+//    let monthBeforePrice: Double = 19.99
+    var defaultMonthPrice: Double = 8.99
+    var defaultYearPrice: Double = 29.99
     var currentSymbol: String = "$"
     
     let scaningAniBgV = UIView()
@@ -432,7 +432,7 @@ class BSiegDeSubscVC: UIViewController {
         
         
         //
-        
+        scaningAniBgV.isUserInteractionEnabled = false
         view.addSubview(scaningAniBgV)
         scaningAniBgV.snp.makeConstraints {
             $0.centerX.equalToSuperview()

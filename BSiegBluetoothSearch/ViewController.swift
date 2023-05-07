@@ -111,7 +111,11 @@ class ViewController: UIViewController {
         if !hasShowScanSubscribeVC {
             hasShowScanSubscribeVC = true
             if !BSiegSubscribeManager.default.inSubscription {
-                userSubscriVC()
+                if BSiegSubscribeManager.default.isSplashBegin == true {
+                    BSiegSubscribeManager.default.isSplashBegin = false
+                } else {
+                    userSubscriVC()
+                }
             } else {
                 showReview()
             }

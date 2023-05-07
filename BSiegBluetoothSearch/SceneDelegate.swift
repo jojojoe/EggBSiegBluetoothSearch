@@ -30,6 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             UserDefaults.standard.set(currentVersion, forKey: "saveVersion")
         }
         if showS {
+            BSiegSubscribeManager.default.isSplashBegin = true
             let splashVC = BSiegDeSplasecVC()
             let nav = UINavigationController.init(rootViewController: splashVC)
             nav.isNavigationBarHidden = true
@@ -43,6 +44,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 }
             }
         } else {
+            BSiegSubscribeManager.default.isSplashBegin = false
             setupViewController(isShowingSplase: false)
         }
         //
@@ -50,8 +52,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func setupViewController(isShowingSplase: Bool) {
-        
-        
         
         let nav = UINavigationController.init(rootViewController: VC)
         nav.isNavigationBarHidden = true
