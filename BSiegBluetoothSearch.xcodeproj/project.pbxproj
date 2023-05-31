@@ -20,6 +20,7 @@
 		D80D35A629EAB9BB00F6B307 /* did_fast.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D80D35A329EAB9BB00F6B307 /* did_fast.mp3 */; };
 		D80D35A829EABA3600F6B307 /* BSiesAudioVibManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80D35A729EABA3600F6B307 /* BSiesAudioVibManager.swift */; };
 		D80D35AA29EBA44200F6B307 /* BSiegMapDegreeScaleV.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80D35A929EBA44200F6B307 /* BSiegMapDegreeScaleV.swift */; };
+		D87639BD2A0BD048009F19A0 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D87639BC2A0BD048009F19A0 /* StoreKit.framework */; };
 		E7EB1D287DF0339325EB0011 /* Pods_BSiegBluetoothSearch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E19BBC9D08CEA7E0C309005 /* Pods_BSiegBluetoothSearch.framework */; };
 		EB73F84429E3BBCE00A32E73 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB73F84329E3BBCE00A32E73 /* Date+Extension.swift */; };
 		EB73F84629E40C3F00A32E73 /* Poppins.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB73F84529E40C3F00A32E73 /* Poppins.ttf */; };
@@ -56,6 +57,7 @@
 		D80D35A329EAB9BB00F6B307 /* did_fast.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = did_fast.mp3; sourceTree = "<group>"; };
 		D80D35A729EABA3600F6B307 /* BSiesAudioVibManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSiesAudioVibManager.swift; sourceTree = "<group>"; };
 		D80D35A929EBA44200F6B307 /* BSiegMapDegreeScaleV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BSiegMapDegreeScaleV.swift; sourceTree = "<group>"; };
+		D87639BC2A0BD048009F19A0 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		EB73F84329E3BBCE00A32E73 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		EB73F84529E40C3F00A32E73 /* Poppins.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Poppins.ttf; sourceTree = "<group>"; };
 		EB8F789729E9510D00FBA311 /* MKRingProgressLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKRingProgressLayer.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7EB1D287DF0339325EB0011 /* Pods_BSiegBluetoothSearch.framework in Frameworks */,
+				D87639BD2A0BD048009F19A0 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,6 +97,7 @@
 		24DA9252AA138671ADD4CC27 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D87639BC2A0BD048009F19A0 /* StoreKit.framework */,
 				8E19BBC9D08CEA7E0C309005 /* Pods_BSiegBluetoothSearch.framework */,
 			);
 			name = Frameworks;
@@ -477,9 +481,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 53ADUL6525;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BSiegBluetoothSearch/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Find Headphone";
@@ -502,7 +506,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.superegg.okeydokey;
+				PRODUCT_BUNDLE_IDENTIFIER = com.find.cellphones;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
