@@ -101,9 +101,9 @@ extension BSiesAudioVibManager {
             if persent <= 0.3 {
                 return 3
             } else if persent <= 0.7 {
-                return 1.5
+                return 2
             } else {
-                return 0.75
+                return 1
             }
         }
         return 1
@@ -121,7 +121,7 @@ extension BSiesAudioVibManager {
             feedTimer = timer
             timer.start()
         }
-        
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
         if let timer = feedTimer {
             timer.invalidate()
             feedTimer = nil
