@@ -46,6 +46,8 @@ class BSiegBlueDeviceCollectionView: UIView {
             myDevicePreviewView = []
             otherDevicePreviewView = []
             
+            
+            //
             BSiesBabyBlueManager.default.peripheralItemList.forEach { item in
                 var currenPreview: BSiegBlueDevicePreview!
                 if let pv = allDevicePreviewView.first(where: { prev in
@@ -63,6 +65,14 @@ class BSiegBlueDeviceCollectionView: UIView {
                 } else {
                     otherDevicePreviewView.append(currenPreview)
                 }
+            }
+            
+            //
+            myDevicePreviewView = myDevicePreviewView.sorted { item1, item2 in
+                return item1.peripheralItem.rssi > item2.peripheralItem.rssi
+            }
+            otherDevicePreviewView = otherDevicePreviewView.sorted { item1, item2 in
+                return item1.peripheralItem.rssi > item2.peripheralItem.rssi
             }
             
             allDevicePreviewView = myDevicePreviewView + otherDevicePreviewView
