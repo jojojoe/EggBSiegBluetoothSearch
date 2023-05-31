@@ -8,7 +8,7 @@
 import Foundation
 import AVFoundation
 import SwiftyTimer
-
+import AudioToolbox
 
 class BSiesAudioVibManager: NSObject {
 
@@ -23,14 +23,14 @@ class BSiesAudioVibManager: NSObject {
     static let `default` = BSiesAudioVibManager()
     var audioPlayer: AVAudioPlayer?
     var currentAudioType: AudioType?
-    let feedvis = UIImpactFeedbackGenerator.init(style: .heavy)
+    var currentVibrateTimeInterval: CGFloat = 0
+//    let feedvis = UIImpactFeedbackGenerator.init(style: .heavy)
     var feedTimer: Timer?
     
     func audioSlowType() -> AudioType {
         if let item = BSiesBabyBlueManager.default.currentTrackingItem {
             let persent = item.deviceDistancePercent()
             if persent <= 0.3 {
-//                return .veryslow
                 return .slow
             } else if persent <= 0.7 {
                 return .slow
@@ -91,12 +91,23 @@ extension BSiesAudioVibManager {
     func feedVibInterval() -> TimeInterval {
         if let item = BSiesBabyBlueManager.default.currentTrackingItem {
             let persent = item.deviceDistancePercent()
-            if persent <= 0.3 {
-                return 2
+//            if persent <= 0.3 {
+//                return 2
+//            } else if persent <= 0.7 {
+//                return 1
+//            } else {
+//                return 0.3
+//            }
+            
+//            return 0.7
+            if persent <= 0.15 {
+                return 6
+            } else if persent <= 0.35 {
+                return 4.5
             } else if persent <= 0.7 {
-                return 1
+                return 2
             } else {
-                return 0.3
+                return 0.7
             }
         }
         return 1
@@ -105,20 +116,33 @@ extension BSiesAudioVibManager {
     func playFeedVib() {
         
         func addnewTimer(interval: TimeInterval) {
+            debugPrint("playFeed addnewTimer: interval: \(interval)")
             let timer = Timer.new(every: interval) {
                 [weak self] in
                 guard let `self` = self else {return}
-                self.feedvis.impactOccurred(intensity: 1)
+//                self.feedvis.impactOccurred(intensity: 1)
+                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+                debugPrint("playFeed vibrate: ver interval: \(interval)")
             }
             feedTimer = timer
             timer.start()
         }
         
-        if let timer = feedTimer {
-            timer.invalidate()
-            feedTimer = nil
+        debugPrint("playFeed playFeedVib()")
+//
+        
+        
+        if currentVibrateTimeInterval != feedVibInterval() {
+            currentVibrateTimeInterval = feedVibInterval()
+            if let timer = feedTimer {
+                timer.invalidate()
+                feedTimer = nil
+            }
+            addnewTimer(interval: currentVibrateTimeInterval)
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
         }
-        addnewTimer(interval: feedVibInterval())
+        
+        
         
         
     }
@@ -127,6 +151,7 @@ extension BSiesAudioVibManager {
         if let timer = feedTimer {
             timer.invalidate()
             feedTimer = nil
+            currentVibrateTimeInterval = 0
         }
     }
 }

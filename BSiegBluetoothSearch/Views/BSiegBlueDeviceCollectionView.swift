@@ -46,6 +46,8 @@ class BSiegBlueDeviceCollectionView: UIView {
             myDevicePreviewView = []
             otherDevicePreviewView = []
             
+            
+            //
             BSiesBabyBlueManager.default.peripheralItemList.forEach { item in
                 var currenPreview: BSiegBlueDevicePreview!
                 if let pv = allDevicePreviewView.first(where: { prev in
@@ -64,11 +66,34 @@ class BSiegBlueDeviceCollectionView: UIView {
                     otherDevicePreviewView.append(currenPreview)
                 }
             }
+            sortedItems()
+            //
+//            myDevicePreviewView = myDevicePreviewView.sorted { item1, item2 in
+//                return item1.peripheralItem.rssi > item2.peripheralItem.rssi
+//            }
+//            otherDevicePreviewView = otherDevicePreviewView.sorted { item1, item2 in
+//                return item1.peripheralItem.rssi > item2.peripheralItem.rssi
+//            }
+//
+//            allDevicePreviewView = myDevicePreviewView + otherDevicePreviewView
+//            collection.reloadData()
             
-            allDevicePreviewView = myDevicePreviewView + otherDevicePreviewView
-            collection.reloadData()
+            
         }
         
+    }
+    
+    func sortedItems() {
+        //
+        myDevicePreviewView = myDevicePreviewView.sorted { item1, item2 in
+            return item1.peripheralItem.rssi > item2.peripheralItem.rssi
+        }
+        otherDevicePreviewView = otherDevicePreviewView.sorted { item1, item2 in
+            return item1.peripheralItem.rssi > item2.peripheralItem.rssi
+        }
+        
+        allDevicePreviewView = myDevicePreviewView + otherDevicePreviewView
+        collection.reloadData()
     }
 
 }
@@ -166,7 +191,7 @@ extension BSiegBlueDeviceCollectionView: UICollectionViewDataSource {
         
         cell.contentBgV.addSubview(preview)
         cell.contentPreview = preview
-        
+        preview.updateContent()
         
         cell.favoClickBlock = {
             [weak self] favoStatus, deviceid in

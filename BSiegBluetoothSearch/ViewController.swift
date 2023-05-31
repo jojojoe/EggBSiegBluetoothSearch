@@ -106,6 +106,12 @@ class ViewController: UIViewController {
         stopTimer()
         searchingBottomV.isHidden = true
         searchingBottomV.stopScanRotateAnimal()
+        //
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.2) {
+            [weak self] in
+            guard let `self` = self else {return}
+            self.scanCollectionV.sortedItems()
+        }
         
         
         if !hasShowScanSubscribeVC {
