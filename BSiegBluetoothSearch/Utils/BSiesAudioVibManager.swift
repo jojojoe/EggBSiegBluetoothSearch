@@ -8,7 +8,7 @@
 import Foundation
 import AVFoundation
 import SwiftyTimer
-
+import AudioToolbox
 
 class BSiesAudioVibManager: NSObject {
 
@@ -23,14 +23,14 @@ class BSiesAudioVibManager: NSObject {
     static let `default` = BSiesAudioVibManager()
     var audioPlayer: AVAudioPlayer?
     var currentAudioType: AudioType?
-    let feedvis = UIImpactFeedbackGenerator.init(style: .heavy)
+//    let feedvis = UIImpactFeedbackGenerator.init(style: .heavy)
     var feedTimer: Timer?
     
     func audioSlowType() -> AudioType {
         if let item = BSiesBabyBlueManager.default.currentTrackingItem {
             let persent = item.deviceDistancePercent()
             if persent <= 0.3 {
-//                return .veryslow
+                
                 return .slow
             } else if persent <= 0.7 {
                 return .slow
@@ -91,12 +91,19 @@ extension BSiesAudioVibManager {
     func feedVibInterval() -> TimeInterval {
         if let item = BSiesBabyBlueManager.default.currentTrackingItem {
             let persent = item.deviceDistancePercent()
+//            if persent <= 0.3 {
+//                return 2
+//            } else if persent <= 0.7 {
+//                return 1
+//            } else {
+//                return 0.3
+//            }
             if persent <= 0.3 {
-                return 2
+                return 3
             } else if persent <= 0.7 {
-                return 1
+                return 1.5
             } else {
-                return 0.3
+                return 0.75
             }
         }
         return 1
@@ -108,7 +115,8 @@ extension BSiesAudioVibManager {
             let timer = Timer.new(every: interval) {
                 [weak self] in
                 guard let `self` = self else {return}
-                self.feedvis.impactOccurred(intensity: 1)
+//                self.feedvis.impactOccurred(intensity: 1)
+                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
             }
             feedTimer = timer
             timer.start()
